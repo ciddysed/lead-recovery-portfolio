@@ -180,6 +180,53 @@
       color: #e2e8f0;
     }
 
+    .hero-clarity {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #fff;
+      background: rgba(96,165,250,0.15);
+      border: 1px solid rgba(96,165,250,0.3);
+      border-radius: 8px;
+      padding: 10px 20px;
+      display: inline-block;
+      margin-bottom: 18px;
+    }
+
+    /* ── CATEGORY UPGRADE CALLOUT ── */
+    .hero-upgrade-line {
+      font-size: 0.92rem;
+      color: #93c5fd;
+      font-style: italic;
+      margin-bottom: 18px;
+      opacity: 0.9;
+    }
+
+    /* ── QUICK SKIM SECTION ── */
+    .skim-section { background: var(--accent-light); }
+    .skim-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+      margin-top: 8px;
+    }
+    .skim-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #fff;
+      border: 1px solid var(--accent-mid);
+      border-radius: 10px;
+      padding: 14px 18px;
+      font-size: 0.93rem;
+      color: var(--text);
+      font-weight: 500;
+    }
+    .skim-dot {
+      color: var(--accent);
+      font-size: 0.6rem;
+      flex-shrink: 0;
+    }
+
     .hero h1 {
       font-size: clamp(1.9rem, 5vw, 2.8rem);
       font-weight: 800;
@@ -284,6 +331,25 @@
       font-size: 1rem;
       margin-bottom: 32px;
       line-height: 1.75;
+    }
+
+    /* ── MONEY CALLOUT ── */
+    .money-callout {
+      background: linear-gradient(135deg, #fefce8 0%, #fef9c3 100%);
+      border: 1px solid #fde68a;
+      border-left: 4px solid #f59e0b;
+      border-radius: 0 12px 12px 0;
+      padding: 18px 24px;
+      margin-bottom: 32px;
+    }
+    .money-callout p {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #78350f;
+      line-height: 1.6;
+    }
+    .money-callout p span {
+      color: #b45309;
     }
 
     .problem-grid {
@@ -571,6 +637,7 @@
     .json-block .str { color: #fca5a5; }
     .json-block .comment { color: #4b5563; }
 
+    /* ── RESULTS — UPGRADED ── */
     .results-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -595,6 +662,14 @@
       font-size: 0.8rem;
       color: #15803d;
       line-height: 1.5;
+    }
+    .result-card .r-stat {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #166534;
+      display: block;
+      margin-bottom: 4px;
+      letter-spacing: -0.5px;
     }
 
     .cta-section {
@@ -683,7 +758,7 @@
       font-weight: 500;
     }
 
-    /* ── BUILDER PROFILE (old, kept for safety) ── */
+    /* ── BUILDER PROFILE (kept) ── */
     .builder-profile {
       display: flex;
       align-items: center;
@@ -691,7 +766,6 @@
       gap: 14px;
       margin-bottom: 24px;
     }
-
     .builder-img {
       width: 48px;
       height: 48px;
@@ -700,7 +774,6 @@
       border: 2px solid rgba(255,255,255,0.3);
       background: rgba(255,255,255,0.1);
     }
-
     .builder-img-fallback {
       width: 48px;
       height: 48px;
@@ -715,18 +788,13 @@
       color: #fff;
       flex-shrink: 0;
     }
-
-    .builder-info {
-      text-align: left;
-    }
-
+    .builder-info { text-align: left; }
     .builder-name {
       font-size: 0.9rem;
       font-weight: 600;
       color: #ffffff;
       margin-bottom: 2px;
     }
-
     .builder-role {
       font-size: 0.8rem;
       color: #cbd5e1;
@@ -773,15 +841,11 @@
       font-size: 0.8rem;
       color: #94a3b8;
     }
-
     .cta-contact a {
       color: #60a5fa;
       text-decoration: none;
     }
-
-    .cta-contact a:hover {
-      text-decoration: underline;
-    }
+    .cta-contact a:hover { text-decoration: underline; }
 
     .micro-proof {
       font-size: 0.8rem;
@@ -806,15 +870,8 @@
       .steps::before { left: 19px; }
       .hero-title-row { flex-direction: column; text-align: center; }
       .hero-title-row h1 { text-align: center; }
-
-      .builder-profile {
-        flex-direction: column;
-        text-align: center;
-      }
-
-      .builder-info {
-        text-align: center;
-      }
+      .builder-profile { flex-direction: column; text-align: center; }
+      .builder-info { text-align: center; }
     }
   </style>
 </head>
@@ -845,25 +902,48 @@
           <p class="hero-profile-name">Ciddy Macapinlac</p>
         </div>
       </div>
+
+      <!-- UPGRADE #4 — Category upgrade line -->
+      <p class="hero-upgrade-line">Most CRMs stop after 2–3 follow-ups. This system doesn't.</p>
+
+      <p class="hero-clarity">This system ensures every lead is contacted up to 5 times — even if they stop responding.</p>
       <p class="hero-subtitle">
-        Built inside a real automation environment at MetaWatt, this system handles multi-contact lead recovery by escalating follow-ups when the primary lead stops responding — designed for high-intent leads where a single missed response could mean losing the deal entirely.
+        Built inside a live production environment handling real lead pipelines, this system escalates follow-ups across multiple contacts when a lead goes silent — so no high-intent opportunity slips through.
       </p>
       <div class="hero-tools">
-        <span class="tool-tag">&#128279; GoHighLevel (GHL)</span>
+        <span class="tool-tag">&#128279; GoHighLevel</span>
         <span class="tool-tag">&#128296; Webhooks / API</span>
-        <span class="tool-tag">&#9881;&#65039; Conditional Branching</span>
+        <span class="tool-tag">&#9881;&#65039; Conditional Logic</span>
         <span class="tool-tag">&#128200; Lead Recovery</span>
-        <span class="tool-tag" style="border-color:rgba(250,204,21,0.35); color:#fde68a; background:rgba(250,204,21,0.1);">&#127981; MetaWatt Environment</span>
       </div>
-      <p class="hero-credibility">Designed for high-ticket lead pipelines where missed follow-up = lost revenue.</p>
     </div>
   </header>
+
+  <!-- QUICK SKIM -->
+  <section class="skim-section">
+    <div class="container">
+      <p class="section-label">In Short</p>
+      <h2 class="section-title">What This System Does</h2>
+      <div class="skim-grid">
+        <div class="skim-item"><span class="skim-dot">●</span><span>Automates follow-ups when leads go cold</span></div>
+        <div class="skim-item"><span class="skim-dot">●</span><span>Escalates to backup contacts (relatives) automatically</span></div>
+        <div class="skim-item"><span class="skim-dot">●</span><span>Uses webhook triggers to connect external systems</span></div>
+        <div class="skim-item"><span class="skim-dot">●</span><span>Stops cleanly when no more contacts remain</span></div>
+      </div>
+    </div>
+  </section>
 
   <!-- THE PROBLEM -->
   <section>
     <div class="container">
       <p class="section-label">The Problem</p>
       <h2 class="section-title">Leads Slip Through the Cracks Every Day</h2>
+
+      <!-- UPGRADE #2 — "Why This Matters" self-diagnosis callout -->
+      <div class="money-callout">
+        <p>&#128161; If you get <span>100 leads a month</span> and even <span>20% go cold</span>, that's <span>20+ missed opportunities</span> your system is currently ignoring — not because the deal was dead, but because follow-up stopped too soon.</p>
+      </div>
+
       <p class="section-intro">
         When a contact stops responding, most businesses have no fallback. Leads stall, pipelines freeze, and revenue is lost — not because the opportunity was gone, but because the follow-up system gave up too soon.
       </p>
@@ -894,7 +974,7 @@
       <h2 class="section-title">A Structured Escalation Workflow That Doesn't Give Up</h2>
       <div class="solution-block">
         <p>
-          A custom automation was built inside GoHighLevel that triggers when a lead enters a specific pipeline stage or is created as a new contact. Instead of stopping at the first non-response, the workflow escalates — moving through a defined list of backup contacts (relatives or secondary parties) until someone responds or all options are exhausted.
+          Built inside GoHighLevel, this workflow triggers when a lead goes unresponsive. Instead of stopping, it escalates through up to 5 backup contacts — checking fields, firing webhooks, and moving on until someone responds.
         </p>
       </div>
       <ul class="solution-list">
@@ -949,7 +1029,7 @@
                 <span>workflow-overview.png — trigger setup</span>
               </div>
             </div>
-            <p>The workflow fires when a new contact is added or when a lead moves into a designated pipeline stage — signaling that standard follow-up has not resulted in a response.</p>
+            <p>Triggers when a new lead is added or moved into a "No Response" pipeline stage.</p>
             <code>Trigger: Pipeline Stage → "No Response"</code>
           </div>
         </div>
@@ -958,7 +1038,7 @@
           <div class="step-num">2</div>
           <div class="step-body">
             <h3>Conditional Check: Primary Contact Fields</h3>
-            <p>Before sending anything, the system checks whether the contact has a valid email address and phone number on file. If both are missing, the workflow skips to the first backup.</p>
+            <p>Checks if the contact has a valid phone or email. If both are missing, skips straight to the first backup contact.</p>
             <code>IF phone IS EMPTY → skip to Relative 1</code>
           </div>
         </div>
@@ -980,7 +1060,7 @@
                 <span>webhook-config.png — endpoint &amp; payload mapping</span>
               </div>
             </div>
-            <p>If contact details exist, a webhook fires with a JSON payload containing the contact's name, phone, email, and lead context — triggering the outreach action in the connected system.</p>
+            <p>A webhook fires with the contact's name, phone, email, and lead context — triggering outreach in the connected system.</p>
             <code>POST → webhook.site / n8n / Zapier endpoint</code>
           </div>
         </div>
@@ -1002,7 +1082,7 @@
                 <span>escalation.png — Relative 1 through Relative 5 chain</span>
               </div>
             </div>
-            <p>If the contact does not respond within the workflow's wait window, the system checks Relative 1's contact fields. If valid, a webhook fires for that contact. If empty, it moves to Relative 2 — and so on, up to Relative 5.</p>
+            <p>No response? The system checks Relative 1's fields, fires a webhook if valid, then moves to Relative 2 — repeating through Relative 5.</p>
             <code>Relative 1 → check → fire → wait → Relative 2 → ...</code>
           </div>
         </div>
@@ -1011,7 +1091,7 @@
           <div class="step-num">5</div>
           <div class="step-body">
             <h3>Stop Condition: No More Contacts</h3>
-            <p>Once all relative fields have been checked and no valid contact remains, the workflow ends gracefully without looping. The lead can be flagged or moved to a manual review stage.</p>
+            <p>All contacts exhausted? The workflow ends cleanly. The lead gets flagged for manual review.</p>
             <code>IF Relative 5 IS EMPTY → End Workflow</code>
           </div>
         </div>
@@ -1025,9 +1105,7 @@
     <div class="container">
       <p class="section-label">Actual System Screenshots</p>
       <h2 class="section-title">Live Workflow Breakdown</h2>
-      <p class="section-intro">
-        Screenshots from the actual GoHighLevel build, showing the workflow structure, conditional logic, webhook setup, and escalation flow.
-      </p>
+      <p class="section-intro">From the actual GoHighLevel build — workflow structure, conditional logic, webhook setup, and escalation flow.</p>
       <div class="visuals-grid">
 
         <div class="visual-card">
@@ -1103,9 +1181,7 @@
     <div class="container">
       <p class="section-label">Technical Implementation</p>
       <h2 class="section-title">What's Under the Hood</h2>
-      <p class="section-intro">
-        This workflow was developed within an active automation environment at MetaWatt, where systems are designed to handle real-world lead flows, integrations, and edge cases beyond standard CRM setups. It uses native GHL workflow features combined with external webhook endpoints to create a fully automated, data-driven escalation process.
-      </p>
+      <p class="section-intro">For those interested in the technical implementation — native GHL workflow features combined with external webhooks to create a fully automated escalation process.</p>
       <div class="tech-grid">
         <div class="tech-card">
           <div class="t-icon">&#127963;</div>
@@ -1160,56 +1236,60 @@
     </div>
   </section>
 
-  <!-- RESULTS -->
+  <!-- RESULTS — UPGRADED (#1) -->
   <section>
     <div class="container">
       <p class="section-label">Results</p>
-      <h2 class="section-title">What This System Is Designed to Achieve</h2>
+      <h2 class="section-title">What This System Actually Delivers</h2>
       <p class="section-intro">
-        Instead of leads dying after 1–2 attempts, this system guarantees up to 5 structured recovery attempts — which is where the majority of missed opportunities are actually recovered. In similar pipelines, systems like this reduce lead drop-off by ensuring no contact is abandoned after the first failure.
+        Every lead receives up to 5 structured follow-up attempts instead of stopping after 1–2. Built inside a live production environment handling real lead pipelines — not theoretical.
       </p>
       <div class="results-grid">
         <div class="result-card">
           <div class="r-icon">&#128683;</div>
-          <h3>Significantly Reduced Lead Drop-Off</h3>
-          <p>Opportunities that would have died at the first non-response now have up to 5 structured recovery attempts before being marked as exhausted.</p>
+          <span class="r-stat">1–2 → 5×</span>
+          <h3>Contact Attempts Per Lead</h3>
+          <p>Leads that would have been abandoned after 1–2 tries now receive up to 5 structured recovery attempts before being marked as exhausted.</p>
         </div>
         <div class="result-card">
           <div class="r-icon">&#128257;</div>
-          <h3>100% Coverage Across All Leads</h3>
-          <p>Every lead is processed through the same escalation logic — no contact is skipped or forgotten due to human oversight or workload.</p>
+          <span class="r-stat">100%</span>
+          <h3>Pipeline Coverage</h3>
+          <p>Every lead runs through the same escalation logic — no contact is skipped or forgotten due to human oversight or workload.</p>
         </div>
         <div class="result-card">
           <div class="r-icon">&#128200;</div>
+          <span class="r-stat">5 Levels</span>
           <h3>Engineered Escalation Path</h3>
-          <p>Each lead goes through up to 5 escalation attempts instead of stopping at the first failure — making the process measurable, auditable, and improvable over time.</p>
+          <p>A measurable, auditable escalation chain replaces the guesswork of manual follow-up — making the process improvable over time.</p>
         </div>
         <div class="result-card">
           <div class="r-icon">&#9889;</div>
-          <h3>Zero Manual Follow-Up Tracking</h3>
-          <p>The system eliminates the need to manually track which contact to try next — all escalation decisions are handled automatically in real time.</p>
+          <span class="r-stat">0 Manual</span>
+          <h3>Follow-Up Tracking Required</h3>
+          <p>All escalation decisions are handled automatically in real time — no spreadsheets, no missed contacts, no human bottleneck.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- CTA -->
+  <!-- CTA — UPGRADED (#4) -->
   <section class="cta-section">
     <div class="container">
       <p class="cta-label">Work With Me</p>
-      <h2>Turn Non-Responsive Leads Into<br />Second Chances — Automatically</h2>
+      <h2>Fix Your Lead Follow-Up System<br />Before It Costs You More Deals</h2>
       <p>
-        Fix your follow-up system before it costs you more deals. Whether you need a full lead recovery workflow built from scratch or want your existing GHL setup reviewed and optimized — I can help you build automation that actually works in production.
+        Whether you need a full lead recovery workflow built from scratch or want your existing GHL setup reviewed and optimized — I can help you build automation that actually works in production.
       </p>
       <p style="color:#60a5fa; font-size:0.88rem; margin-top:-10px; margin-bottom:16px; font-style:italic;">
         Ideal for agencies, service businesses, or sales teams dealing with high-value leads that require persistent, structured follow-up.
       </p>
       <p class="cta-urgency">Most pipelines lose leads not because of bad offers — but because follow-up stops too early.</p>
-      <p class="micro-proof">Built and tested inside a live automation environment handling real lead pipelines.</p>
+      <p class="micro-proof">Built and tested inside a live production environment handling real lead pipelines.</p>
 
       <div class="cta-buttons">
-        <a href="#" class="btn-primary">&#128172; Audit My Lead Follow-Up System</a>
-        <a href="#" class="btn-outline">&#9881;&#65039; Implement This In My GHL Account</a>
+        <a href="mailto:zed.maxcapinlac@gmail.com" class="btn-primary">&#128172; Fix My Lead Follow-Up System</a>
+        <a href="mailto:zed.maxcapinlac@gmail.com" class="btn-outline">&#9881;&#65039; Build This Workflow In My GHL Account</a>
       </div>
 
       <p class="cta-contact">
@@ -1232,31 +1312,33 @@
     <img class="modal-content" id="modalImg" />
   </div>
 
-  <script>
-    const modal = document.getElementById("imgModal");
-    const modalImg = document.getElementById("modalImg");
-    const closeBtn = document.querySelector(".modal-close");
+<script>
+  const modal = document.getElementById("imgModal");
+  const modalImg = document.getElementById("modalImg");
+  const closeBtn = document.querySelector(".modal-close");
 
-    const images = document.querySelectorAll(".clickable-img");
-
-    images.forEach(img => {
-      img.addEventListener("click", function () {
-        modalImg.src = this.src;
-        modal.style.display = "block";
-        modal.offsetHeight;
-        modal.classList.add("show");
-      });
+  document.querySelectorAll(".clickable-img").forEach(img => {
+    img.addEventListener("click", function () {
+      modal.classList.add("show");
+      modalImg.src = this.src;
     });
+  });
 
-    function closeModal() {
+  closeBtn.addEventListener("click", () => {
+    modal.classList.remove("show");
+  });
+
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal || e.target === modalImg) {
       modal.classList.remove("show");
-      setTimeout(() => { modal.style.display = "none"; }, 200);
     }
+  });
 
-    closeBtn.onclick = closeModal;
-    modal.onclick = function (e) { if (e.target === modal) closeModal(); };
-    document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeModal(); });
-  </script>
-
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      modal.classList.remove("show");
+    }
+  });
+</script>
 </body>
 </html>
