@@ -129,6 +129,57 @@
       border-radius: 20px;
       margin-bottom: 22px;
     }
+    .hero-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+    .hero-title-row h1 {
+      font-size: clamp(1.9rem, 5vw, 2.8rem);
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: -0.5px;
+      margin-bottom: 0;
+      text-align: left;
+    }
+    .hero-title-row h1 span { color: #60a5fa; }
+    .hero-profile {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .hero-profile-img {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid rgba(255,255,255,0.3);
+      display: block;
+    }
+    .hero-profile-fallback {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      border: 3px solid rgba(255,255,255,0.3);
+      background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #fff;
+    }
+    .hero-profile-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #e2e8f0;
+    }
+
     .hero h1 {
       font-size: clamp(1.9rem, 5vw, 2.8rem);
       font-weight: 800;
@@ -163,6 +214,50 @@
       font-size: 0.8rem;
       color: #94a3b8;
       margin-top: 14px;
+    }
+
+    /* ── HERO AUTHOR ── */
+    .hero-author {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 22px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 40px;
+      padding: 6px 14px 6px 6px;
+    }
+    .hero-author-img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid rgba(255,255,255,0.3);
+      background: linear-gradient(135deg, #2563eb, #60a5fa);
+      flex-shrink: 0;
+    }
+    .hero-author-fallback {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255,255,255,0.3);
+      background: linear-gradient(135deg, #2563eb, #60a5fa);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .hero-author-text {
+      font-size: 0.8rem;
+      color: #cbd5e1;
+      font-weight: 500;
+    }
+    .hero-author-text strong {
+      color: #fff;
+      font-weight: 600;
     }
 
     section { padding: 64px 0; }
@@ -448,7 +543,6 @@
       line-height: 1.6;
     }
 
-    /* Failure case note */
     .failure-note {
       margin-top: 18px;
       background: #fefce8;
@@ -536,6 +630,108 @@
       font-style: italic;
       margin-bottom: 20px !important;
     }
+
+    /* ── ABOUT THE BUILDER SECTION ── */
+    .about-section {
+      padding: 72px 0;
+      background: #f9fafb;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+    .about-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .about-photo-wrap {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin-bottom: 20px;
+      border: 4px solid #fff;
+      box-shadow: 0 8px 32px rgba(37, 99, 235, 0.15), 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .about-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .about-photo-fallback {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #1e3a8a, #2563eb);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -1px;
+    }
+    .about-name {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -0.4px;
+      margin-bottom: 6px;
+    }
+    .about-role {
+      font-size: 0.92rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    /* ── BUILDER PROFILE (old, kept for safety) ── */
+    .builder-profile {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .builder-img {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(255,255,255,0.3);
+      background: rgba(255,255,255,0.1);
+    }
+
+    .builder-img-fallback {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.3);
+      background: linear-gradient(135deg, #2563eb, #60a5fa);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .builder-info {
+      text-align: left;
+    }
+
+    .builder-name {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 2px;
+    }
+
+    .builder-role {
+      font-size: 0.8rem;
+      color: #cbd5e1;
+    }
+
     .cta-buttons {
       display: flex;
       gap: 12px;
@@ -571,6 +767,22 @@
     }
     .btn-outline:hover { border-color: rgba(255,255,255,0.5); color: #fff; }
 
+    /* ── EMAIL CTA ── */
+    .cta-contact {
+      margin-top: 18px;
+      font-size: 0.8rem;
+      color: #94a3b8;
+    }
+
+    .cta-contact a {
+      color: #60a5fa;
+      text-decoration: none;
+    }
+
+    .cta-contact a:hover {
+      text-decoration: underline;
+    }
+
     .micro-proof {
       font-size: 0.8rem;
       color: #64748b;
@@ -592,6 +804,17 @@
       .hero { padding: 56px 0 52px; }
       .visuals-grid { grid-template-columns: 1fr; }
       .steps::before { left: 19px; }
+      .hero-title-row { flex-direction: column; text-align: center; }
+      .hero-title-row h1 { text-align: center; }
+
+      .builder-profile {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .builder-info {
+        text-align: center;
+      }
     }
   </style>
 </head>
@@ -609,7 +832,19 @@
   <header class="hero">
     <div class="container">
       <div class="hero-badge">Case Study — Automation Engineering</div>
-      <h1>Recover Dead Leads <span>Automatically</span><br />Before They're Lost Forever</h1>
+      <div class="hero-title-row">
+        <h1>Recover Dead Leads <span>Automatically</span><br />Before They're Lost Forever</h1>
+        <div class="hero-profile">
+          <img
+            src="face.png"
+            alt="Ciddy Macapinlac"
+            class="hero-profile-img"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+          />
+          <div class="hero-profile-fallback" style="display:none;">CM</div>
+          <p class="hero-profile-name">Ciddy Macapinlac</p>
+        </div>
+      </div>
       <p class="hero-subtitle">
         Built inside a real automation environment at MetaWatt, this system handles multi-contact lead recovery by escalating follow-ups when the primary lead stops responding — designed for high-intent leads where a single missed response could mean losing the deal entirely.
       </p>
@@ -904,7 +1139,6 @@
         </div>
       </div>
 
-      <!-- FAILURE CASE — senior engineering signal -->
       <div class="failure-note">
         &#9888;&#65039; <strong>Edge case handled:</strong> If a webhook fails mid-escalation, the workflow can be extended with retry logic or error-tagging steps that flag the lead for manual review — ensuring no silent failures in production.
       </div>
@@ -970,14 +1204,18 @@
       <p style="color:#60a5fa; font-size:0.88rem; margin-top:-10px; margin-bottom:16px; font-style:italic;">
         Ideal for agencies, service businesses, or sales teams dealing with high-value leads that require persistent, structured follow-up.
       </p>
-      <!-- EMOTIONAL URGENCY LINE -->
       <p class="cta-urgency">Most pipelines lose leads not because of bad offers — but because follow-up stops too early.</p>
-      <!-- MICRO-PROOF -->
       <p class="micro-proof">Built and tested inside a live automation environment handling real lead pipelines.</p>
+
       <div class="cta-buttons">
         <a href="#" class="btn-primary">&#128172; Audit My Lead Follow-Up System</a>
         <a href="#" class="btn-outline">&#9881;&#65039; Implement This In My GHL Account</a>
       </div>
+
+      <p class="cta-contact">
+        Prefer email? Reach me at
+        <a href="mailto:zed.maxcapinlac@gmail.com">zed.maxcapinlac@gmail.com</a>
+      </p>
     </div>
   </section>
 
