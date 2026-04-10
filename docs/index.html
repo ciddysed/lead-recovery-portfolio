@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recover Dead Leads Automatically — Before They're Lost Forever</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #ffffff;
+      --text: #1a1a2e;
+      --muted: #5a5a72;
+      --accent: #2563eb;
+      --accent-light: #eff6ff;
+      --accent-mid: #bfdbfe;
+      --border: #e5e7eb;
+      --card: #f9fafb;
+      --tag-bg: #dbeafe;
+      --tag-text: #1d4ed8;
+      --step-bg: #f0f9ff;
+      --step-border: #93c5fd;
+      --result-bg: #f0fdf4;
+      --result-border: #86efac;
+      --result-text: #166534;
+      --cta-bg: #1e3a8a;
+      --cta-text: #ffffff;
+      --cta-accent: #60a5fa;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      font-size: 16px;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .topbar {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: 14px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .topbar-logo {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--accent);
+      letter-spacing: -0.3px;
+    }
+    .topbar-tag {
+      font-size: 0.78rem;
+      color: var(--muted);
+      background: var(--accent-light);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: 500;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 60%, #1d4ed8 100%);
+      color: #fff;
+      padding: 80px 0 72px;
+      text-align: center;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      padding-top: 60px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.95);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    .modal.show {
+      display: block;
+      opacity: 1;
+    }
+    .modal-content {
+      display: block;
+      margin: auto;
+      max-width: 90%;
+      max-height: 85%;
+      border-radius: 10px;
+      cursor: zoom-out;
+    }
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      color: #fff;
+      font-size: 30px;
+      cursor: pointer;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(96, 165, 250, 0.2);
+      border: 1px solid rgba(96, 165, 250, 0.4);
+      color: #93c5fd;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 22px;
+    }
+    .hero h1 {
+      font-size: clamp(1.9rem, 5vw, 2.8rem);
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: -0.5px;
+      margin-bottom: 18px;
+    }
+    .hero h1 span { color: #60a5fa; }
+    .hero-subtitle {
+      font-size: 1.1rem;
+      color: #cbd5e1;
+      max-width: 560px;
+      margin: 0 auto 28px;
+      line-height: 1.65;
+    }
+    .hero-tools {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .tool-tag {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #e2e8f0;
+      font-size: 0.82rem;
+      font-weight: 500;
+      padding: 5px 14px;
+      border-radius: 20px;
+    }
+    .hero-credibility {
+      font-size: 0.8rem;
+      color: #94a3b8;
+      margin-top: 14px;
+    }
+
+    section { padding: 64px 0; }
+    section + section { border-top: 1px solid var(--border); }
+
+    .section-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .section-title {
+      font-size: clamp(1.35rem, 3vw, 1.75rem);
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      margin-bottom: 16px;
+      color: var(--text);
+    }
+    .section-intro {
+      color: var(--muted);
+      max-width: 640px;
+      font-size: 1rem;
+      margin-bottom: 32px;
+      line-height: 1.75;
+    }
+
+    .problem-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 8px;
+    }
+    .problem-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 22px 20px;
+    }
+    .problem-card .icon {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+    .problem-card h3 {
+      font-size: 0.92rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+    .problem-card p {
+      font-size: 0.875rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .solution-block {
+      background: var(--accent-light);
+      border-left: 4px solid var(--accent);
+      border-radius: 0 12px 12px 0;
+      padding: 24px 28px;
+      margin-bottom: 20px;
+    }
+    .solution-block p {
+      color: #1e40af;
+      font-size: 0.95rem;
+      line-height: 1.75;
+    }
+    .solution-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .solution-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+    .solution-list li .check {
+      width: 20px;
+      height: 20px;
+      min-width: 20px;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      margin-top: 2px;
+    }
+
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      position: relative;
+    }
+    .steps::before {
+      content: '';
+      position: absolute;
+      left: 19px;
+      top: 24px;
+      bottom: 24px;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--accent), #93c5fd);
+      border-radius: 2px;
+    }
+    .step {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      padding: 20px 0;
+      position: relative;
+    }
+    .step-num {
+      width: 40px;
+      height: 40px;
+      min-width: 40px;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 800;
+      position: relative;
+      z-index: 2;
+      box-shadow: 0 0 0 4px #fff;
+    }
+    .step-body {
+      background: var(--step-bg);
+      border: 1px solid var(--step-border);
+      border-radius: 10px;
+      padding: 16px 20px;
+      flex: 1;
+    }
+    .step-body h3 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 5px;
+      color: var(--text);
+    }
+    .step-body p {
+      font-size: 0.875rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .step-body code {
+      display: inline-block;
+      background: #dbeafe;
+      color: #1d4ed8;
+      font-size: 0.78rem;
+      font-family: 'Courier New', monospace;
+      padding: 2px 7px;
+      border-radius: 4px;
+      margin-top: 6px;
+    }
+
+    .step-img-wrap {
+      margin: 12px 0 10px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--step-border);
+      background: linear-gradient(135deg, #e0e7ff 0%, #dbeafe 100%);
+      width: 100%;
+    }
+    .step-img-wrap img {
+      width: 100%;
+      display: block;
+      border-radius: 7px;
+      transition: transform 0.2s ease;
+    }
+    .step-img-wrap img:hover { transform: scale(1.02); }
+    .step-img-placeholder {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 16px;
+      background: linear-gradient(135deg, #e0e7ff 0%, #dbeafe 100%);
+      border-radius: 7px;
+    }
+    .step-img-placeholder .ph-icon { font-size: 1.4rem; opacity: 0.6; }
+    .step-img-placeholder span {
+      font-size: 0.78rem;
+      color: #5472a8;
+      font-family: 'Courier New', monospace;
+      font-weight: 500;
+    }
+
+    .visuals-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 28px;
+      margin-top: 8px;
+    }
+    .visual-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+    .visual-card .img-wrap {
+      background: linear-gradient(135deg, #e0e7ff 0%, #dbeafe 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 200px;
+      position: relative;
+      overflow: hidden;
+    }
+    .visual-card img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+    .img-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: #6d8ac7;
+      font-size: 0.82rem;
+      font-weight: 500;
+      text-align: center;
+      padding: 20px;
+      height: 200px;
+    }
+    .img-placeholder .ph-icon { font-size: 2.2rem; opacity: 0.6; }
+    .img-placeholder span { font-size: 0.8rem; color: #7c9fd4; }
+    .visual-card .caption {
+      padding: 14px 18px;
+      border-top: 1px solid var(--border);
+    }
+    .visual-card .caption strong {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+    .visual-card .caption p {
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .clickable-img {
+      transition: transform 0.2s ease;
+      cursor: zoom-in;
+    }
+    .clickable-img:hover { transform: scale(1.02); }
+
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-top: 8px;
+    }
+    .tech-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .tech-card .t-icon { font-size: 1.3rem; margin-bottom: 8px; }
+    .tech-card h3 {
+      font-size: 0.88rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+    .tech-card p {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* Failure case note */
+    .failure-note {
+      margin-top: 18px;
+      background: #fefce8;
+      border: 1px solid #fde68a;
+      border-radius: 10px;
+      padding: 14px 18px;
+      font-size: 0.85rem;
+      color: #78350f;
+      line-height: 1.6;
+    }
+    .failure-note strong { color: #92400e; }
+
+    .json-block {
+      background: #0f172a;
+      color: #94a3b8;
+      border-radius: 10px;
+      padding: 20px 22px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.82rem;
+      line-height: 1.8;
+      margin-top: 24px;
+      overflow-x: auto;
+    }
+    .json-block .key { color: #7dd3fc; }
+    .json-block .val { color: #86efac; }
+    .json-block .str { color: #fca5a5; }
+    .json-block .comment { color: #4b5563; }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-top: 8px;
+    }
+    .result-card {
+      background: var(--result-bg);
+      border: 1px solid var(--result-border);
+      border-radius: 12px;
+      padding: 22px 18px;
+      text-align: center;
+    }
+    .result-card .r-icon { font-size: 1.8rem; margin-bottom: 10px; }
+    .result-card h3 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--result-text);
+      margin-bottom: 5px;
+    }
+    .result-card p {
+      font-size: 0.8rem;
+      color: #15803d;
+      line-height: 1.5;
+    }
+
+    .cta-section {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+      padding: 72px 0;
+      text-align: center;
+    }
+    .cta-section .container { max-width: 600px; }
+    .cta-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #60a5fa;
+      margin-bottom: 12px;
+    }
+    .cta-section h2 {
+      font-size: clamp(1.5rem, 3.5vw, 2rem);
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 14px;
+      letter-spacing: -0.3px;
+    }
+    .cta-section p {
+      color: #94a3b8;
+      font-size: 0.97rem;
+      margin-bottom: 32px;
+      line-height: 1.7;
+    }
+    .cta-urgency {
+      color: #93c5fd !important;
+      font-size: 0.9rem !important;
+      font-style: italic;
+      margin-bottom: 20px !important;
+    }
+    .cta-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      padding: 13px 26px;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: #1d4ed8; }
+    .btn-outline {
+      background: transparent;
+      color: #cbd5e1;
+      padding: 13px 26px;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.2);
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+      display: inline-block;
+    }
+    .btn-outline:hover { border-color: rgba(255,255,255,0.5); color: #fff; }
+
+    .micro-proof {
+      font-size: 0.8rem;
+      color: #64748b;
+      margin-top: -16px;
+      margin-bottom: 32px;
+    }
+
+    footer {
+      background: #f9fafb;
+      border-top: 1px solid var(--border);
+      padding: 24px 0;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    @media (max-width: 600px) {
+      section { padding: 48px 0; }
+      .hero { padding: 56px 0 52px; }
+      .visuals-grid { grid-template-columns: 1fr; }
+      .steps::before { left: 19px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP NAV BAR -->
+  <div class="topbar">
+    <div class="topbar-inner">
+      <span class="topbar-logo">&#9679; Lead Recovery — Case Study</span>
+      <span class="topbar-tag">MetaWatt · GoHighLevel · Webhooks · API</span>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="container">
+      <div class="hero-badge">Case Study — Automation Engineering</div>
+      <h1>Recover Dead Leads <span>Automatically</span><br />Before They're Lost Forever</h1>
+      <p class="hero-subtitle">
+        Built inside a real automation environment at MetaWatt, this system handles multi-contact lead recovery by escalating follow-ups when the primary lead stops responding — designed for high-intent leads where a single missed response could mean losing the deal entirely.
+      </p>
+      <div class="hero-tools">
+        <span class="tool-tag">&#128279; GoHighLevel (GHL)</span>
+        <span class="tool-tag">&#128296; Webhooks / API</span>
+        <span class="tool-tag">&#9881;&#65039; Conditional Branching</span>
+        <span class="tool-tag">&#128200; Lead Recovery</span>
+        <span class="tool-tag" style="border-color:rgba(250,204,21,0.35); color:#fde68a; background:rgba(250,204,21,0.1);">&#127981; MetaWatt Environment</span>
+      </div>
+      <p class="hero-credibility">Designed for high-ticket lead pipelines where missed follow-up = lost revenue.</p>
+    </div>
+  </header>
+
+  <!-- THE PROBLEM -->
+  <section>
+    <div class="container">
+      <p class="section-label">The Problem</p>
+      <h2 class="section-title">Leads Slip Through the Cracks Every Day</h2>
+      <p class="section-intro">
+        When a contact stops responding, most businesses have no fallback. Leads stall, pipelines freeze, and revenue is lost — not because the opportunity was gone, but because the follow-up system gave up too soon.
+      </p>
+      <div class="problem-grid">
+        <div class="problem-card">
+          <div class="icon">&#128274;</div>
+          <h3>Contacts Go Silent</h3>
+          <p>Leads stop responding to calls, texts, and emails — and there's no system in place to continue the outreach intelligently.</p>
+        </div>
+        <div class="problem-card">
+          <div class="icon">&#9201;</div>
+          <h3>Follow-Ups Stop Too Early</h3>
+          <p>Most CRM automation sequences end after a few attempts, leaving potential conversions sitting in a dead-end pipeline stage.</p>
+        </div>
+        <div class="problem-card">
+          <div class="icon">&#128226;</div>
+          <h3>No Escalation Logic</h3>
+          <p>When the primary contact doesn't respond, there's no structured process to try alternative contacts or escalate to backup parties.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE SOLUTION -->
+  <section>
+    <div class="container">
+      <p class="section-label">The Solution</p>
+      <h2 class="section-title">A Structured Escalation Workflow That Doesn't Give Up</h2>
+      <div class="solution-block">
+        <p>
+          A custom automation was built inside GoHighLevel that triggers when a lead enters a specific pipeline stage or is created as a new contact. Instead of stopping at the first non-response, the workflow escalates — moving through a defined list of backup contacts (relatives or secondary parties) until someone responds or all options are exhausted.
+        </p>
+      </div>
+      <ul class="solution-list">
+        <li>
+          <span class="check">&#10003;</span>
+          <span>Follows up beyond the primary contact using pre-mapped relative fields</span>
+        </li>
+        <li>
+          <span class="check">&#10003;</span>
+          <span>Checks whether each contact has a valid phone number or email before sending</span>
+        </li>
+        <li>
+          <span class="check">&#10003;</span>
+          <span>Triggers a webhook at each step to execute external actions or notify systems</span>
+        </li>
+        <li>
+          <span class="check">&#10003;</span>
+          <span>Automatically stops when no further backup contacts are available</span>
+        </li>
+        <li>
+          <span class="check">&#10003;</span>
+          <span>Links each relative contact back to the parent lead record for full visibility</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section>
+    <div class="container">
+      <p class="section-label">How It Works</p>
+      <h2 class="section-title">Step-by-Step Workflow Logic</h2>
+      <p class="section-intro">
+        The workflow follows a sequential escalation pattern — each step only executes if the previous contact was unreachable or unavailable.
+      </p>
+      <div class="steps">
+
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h3>Trigger: Contact Created or Stage Changed</h3>
+            <div class="step-img-wrap">
+              <img
+                src="image_1.png"
+                alt="Workflow trigger screenshot"
+                loading="lazy"
+                class="clickable-img"
+                onerror="this.style.display='none'; this.parentNode.querySelector('.step-img-placeholder').style.display='flex';"
+              />
+              <div class="step-img-placeholder">
+                <span class="ph-icon">&#128203;</span>
+                <span>workflow-overview.png — trigger setup</span>
+              </div>
+            </div>
+            <p>The workflow fires when a new contact is added or when a lead moves into a designated pipeline stage — signaling that standard follow-up has not resulted in a response.</p>
+            <code>Trigger: Pipeline Stage → "No Response"</code>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h3>Conditional Check: Primary Contact Fields</h3>
+            <p>Before sending anything, the system checks whether the contact has a valid email address and phone number on file. If both are missing, the workflow skips to the first backup.</p>
+            <code>IF phone IS EMPTY → skip to Relative 1</code>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h3>Webhook Execution: Primary Contact</h3>
+            <div class="step-img-wrap">
+              <img
+                src="webhook.png"
+                alt="Webhook configuration screenshot"
+                loading="lazy"
+                class="clickable-img"
+                onerror="this.style.display='none'; this.parentNode.querySelector('.step-img-placeholder').style.display='flex';"
+              />
+              <div class="step-img-placeholder">
+                <span class="ph-icon">&#128279;</span>
+                <span>webhook-config.png — endpoint &amp; payload mapping</span>
+              </div>
+            </div>
+            <p>If contact details exist, a webhook fires with a JSON payload containing the contact's name, phone, email, and lead context — triggering the outreach action in the connected system.</p>
+            <code>POST → webhook.site / n8n / Zapier endpoint</code>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <h3>Escalation to Relative 1 → Relative 5</h3>
+            <div class="step-img-wrap">
+              <img
+                src="escalation.png"
+                alt="Escalation flow screenshot"
+                loading="lazy"
+                class="clickable-img"
+                onerror="this.style.display='none'; this.parentNode.querySelector('.step-img-placeholder').style.display='flex';"
+              />
+              <div class="step-img-placeholder">
+                <span class="ph-icon">&#128200;</span>
+                <span>escalation.png — Relative 1 through Relative 5 chain</span>
+              </div>
+            </div>
+            <p>If the contact does not respond within the workflow's wait window, the system checks Relative 1's contact fields. If valid, a webhook fires for that contact. If empty, it moves to Relative 2 — and so on, up to Relative 5.</p>
+            <code>Relative 1 → check → fire → wait → Relative 2 → ...</code>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-body">
+            <h3>Stop Condition: No More Contacts</h3>
+            <p>Once all relative fields have been checked and no valid contact remains, the workflow ends gracefully without looping. The lead can be flagged or moved to a manual review stage.</p>
+            <code>IF Relative 5 IS EMPTY → End Workflow</code>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ACTUAL SYSTEM SCREENSHOTS -->
+  <section>
+    <div class="container">
+      <p class="section-label">Actual System Screenshots</p>
+      <h2 class="section-title">Live Workflow Breakdown</h2>
+      <p class="section-intro">
+        Screenshots from the actual GoHighLevel build, showing the workflow structure, conditional logic, webhook setup, and escalation flow.
+      </p>
+      <div class="visuals-grid">
+
+        <div class="visual-card">
+          <div class="img-wrap">
+            <img src="image_1.png" alt="Full workflow overview" loading="lazy" class="clickable-img"
+              onerror="this.style.display='none'; this.parentNode.querySelector('.img-placeholder').style.display='flex';" />
+            <div class="img-placeholder" style="display:none;">
+              <div class="ph-icon">&#128203;</div>
+              <strong>workflow-overview.png</strong>
+              <span>Full workflow overview screenshot</span>
+            </div>
+          </div>
+          <div class="caption">
+            <strong>Workflow Overview</strong>
+            <p>The full automation map showing trigger, all condition branches, webhook actions, and end states across the escalation chain.</p>
+          </div>
+        </div>
+
+        <div class="visual-card">
+          <div class="img-wrap">
+            <img src="condition.png" alt="Condition logic" loading="lazy" class="clickable-img"
+              onerror="this.style.display='none'; this.parentNode.querySelector('.img-placeholder').style.display='flex';" />
+            <div class="img-placeholder" style="display:none;">
+              <div class="ph-icon">&#128268;</div>
+              <strong>condition-logic.png</strong>
+              <span>Conditional branching logic screenshot</span>
+            </div>
+          </div>
+          <div class="caption">
+            <strong>Conditional Logic</strong>
+            <p>Branch conditions that check whether each contact's phone and email fields are populated before attempting outreach.</p>
+          </div>
+        </div>
+
+        <div class="visual-card">
+          <div class="img-wrap">
+            <img src="webhook.png" alt="Webhook configuration" loading="lazy" class="clickable-img"
+              onerror="this.style.display='none'; this.parentNode.querySelector('.img-placeholder').style.display='flex';" />
+            <div class="img-placeholder" style="display:none;">
+              <div class="ph-icon">&#128279;</div>
+              <strong>webhook-config.png</strong>
+              <span>Webhook configuration screenshot</span>
+            </div>
+          </div>
+          <div class="caption">
+            <strong>Webhook Setup</strong>
+            <p>The webhook action configuration inside GHL, including the endpoint URL and dynamically mapped JSON body fields.</p>
+          </div>
+        </div>
+
+        <div class="visual-card">
+          <div class="img-wrap">
+            <img src="escalation.png" alt="Step-by-step escalation" loading="lazy" class="clickable-img"
+              onerror="this.style.display='none'; this.parentNode.querySelector('.img-placeholder').style.display='flex';" />
+            <div class="img-placeholder" style="display:none;">
+              <div class="ph-icon">&#128200;</div>
+              <strong>escalation-flow.png</strong>
+              <span>Escalation flow screenshot</span>
+            </div>
+          </div>
+          <div class="caption">
+            <strong>Escalation Logic (Step-by-Step Progression)</strong>
+            <p>Each contact is evaluated before outreach. If valid, a webhook is triggered — otherwise, the system moves to the next available contact, ensuring no opportunity is missed.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- TECHNICAL IMPLEMENTATION -->
+  <section>
+    <div class="container">
+      <p class="section-label">Technical Implementation</p>
+      <h2 class="section-title">What's Under the Hood</h2>
+      <p class="section-intro">
+        This workflow was developed within an active automation environment at MetaWatt, where systems are designed to handle real-world lead flows, integrations, and edge cases beyond standard CRM setups. It uses native GHL workflow features combined with external webhook endpoints to create a fully automated, data-driven escalation process.
+      </p>
+      <div class="tech-grid">
+        <div class="tech-card">
+          <div class="t-icon">&#127963;</div>
+          <h3>Conditional Branching</h3>
+          <p>Each escalation step uses GHL's IF/ELSE branch logic to evaluate whether contact fields are populated before proceeding.</p>
+        </div>
+        <div class="tech-card">
+          <div class="t-icon">&#128260;</div>
+          <h3>Sequential Workflow Logic</h3>
+          <p>Steps execute in order with built-in wait periods between attempts, ensuring structured, non-spammy outreach at each escalation level.</p>
+        </div>
+        <div class="tech-card">
+          <div class="t-icon">&#128279;</div>
+          <h3>Webhook / API Requests</h3>
+          <p>Each escalation fires a POST request to a configured endpoint, passing contact data in real time to trigger downstream actions.</p>
+        </div>
+        <div class="tech-card">
+          <div class="t-icon">&#128101;</div>
+          <h3>Dynamic Field Mapping</h3>
+          <p>Name, phone, email, relationship type, and parent contact ID are all mapped dynamically from GHL custom fields into the payload.</p>
+        </div>
+        <div class="tech-card">
+          <div class="t-icon">&#128196;</div>
+          <h3>JSON Payload Structure</h3>
+          <p>A standardized payload is sent at every step, keeping the receiving system consistent regardless of which relative is being contacted.</p>
+        </div>
+        <div class="tech-card">
+          <div class="t-icon">&#128279;</div>
+          <h3>Parent Contact Linking</h3>
+          <p>Each relative record is linked to the original lead using a custom parent contact ID field, maintaining full relationship visibility.</p>
+        </div>
+      </div>
+
+      <!-- FAILURE CASE — senior engineering signal -->
+      <div class="failure-note">
+        &#9888;&#65039; <strong>Edge case handled:</strong> If a webhook fails mid-escalation, the workflow can be extended with retry logic or error-tagging steps that flag the lead for manual review — ensuring no silent failures in production.
+      </div>
+
+      <div class="json-block">
+        <span class="comment">// Sample Webhook Payload — Relative Escalation Step</span><br />
+        {<br />
+        &nbsp;&nbsp;<span class="key">"lead_id"</span>: <span class="str">"{{contact.id}}"</span>,<br />
+        &nbsp;&nbsp;<span class="key">"lead_name"</span>: <span class="str">"{{contact.full_name}}"</span>,<br />
+        &nbsp;&nbsp;<span class="key">"relative_name"</span>: <span class="str">"{{contact.relative_1_name}}"</span>,<br />
+        &nbsp;&nbsp;<span class="key">"relative_phone"</span>: <span class="str">"{{contact.relative_1_phone}}"</span>,<br />
+        &nbsp;&nbsp;<span class="key">"relative_email"</span>: <span class="str">"{{contact.relative_1_email}}"</span>,<br />
+        &nbsp;&nbsp;<span class="key">"relationship"</span>: <span class="str">"{{contact.relative_1_relationship}}"</span>,<br />
+        &nbsp;&nbsp;<span class="key">"parent_contact_id"</span>: <span class="str">"{{contact.id}}"</span>,<br />
+        &nbsp;&nbsp;<span class="key">"escalation_level"</span>: <span class="val">1</span>,<br />
+        &nbsp;&nbsp;<span class="key">"pipeline_stage"</span>: <span class="str">"{{opportunity.stage_name}}"</span><br />
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section>
+    <div class="container">
+      <p class="section-label">Results</p>
+      <h2 class="section-title">What This System Is Designed to Achieve</h2>
+      <p class="section-intro">
+        Instead of leads dying after 1–2 attempts, this system guarantees up to 5 structured recovery attempts — which is where the majority of missed opportunities are actually recovered. In similar pipelines, systems like this reduce lead drop-off by ensuring no contact is abandoned after the first failure.
+      </p>
+      <div class="results-grid">
+        <div class="result-card">
+          <div class="r-icon">&#128683;</div>
+          <h3>Significantly Reduced Lead Drop-Off</h3>
+          <p>Opportunities that would have died at the first non-response now have up to 5 structured recovery attempts before being marked as exhausted.</p>
+        </div>
+        <div class="result-card">
+          <div class="r-icon">&#128257;</div>
+          <h3>100% Coverage Across All Leads</h3>
+          <p>Every lead is processed through the same escalation logic — no contact is skipped or forgotten due to human oversight or workload.</p>
+        </div>
+        <div class="result-card">
+          <div class="r-icon">&#128200;</div>
+          <h3>Engineered Escalation Path</h3>
+          <p>Each lead goes through up to 5 escalation attempts instead of stopping at the first failure — making the process measurable, auditable, and improvable over time.</p>
+        </div>
+        <div class="result-card">
+          <div class="r-icon">&#9889;</div>
+          <h3>Zero Manual Follow-Up Tracking</h3>
+          <p>The system eliminates the need to manually track which contact to try next — all escalation decisions are handled automatically in real time.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="container">
+      <p class="cta-label">Work With Me</p>
+      <h2>Turn Non-Responsive Leads Into<br />Second Chances — Automatically</h2>
+      <p>
+        Fix your follow-up system before it costs you more deals. Whether you need a full lead recovery workflow built from scratch or want your existing GHL setup reviewed and optimized — I can help you build automation that actually works in production.
+      </p>
+      <p style="color:#60a5fa; font-size:0.88rem; margin-top:-10px; margin-bottom:16px; font-style:italic;">
+        Ideal for agencies, service businesses, or sales teams dealing with high-value leads that require persistent, structured follow-up.
+      </p>
+      <!-- EMOTIONAL URGENCY LINE -->
+      <p class="cta-urgency">Most pipelines lose leads not because of bad offers — but because follow-up stops too early.</p>
+      <!-- MICRO-PROOF -->
+      <p class="micro-proof">Built and tested inside a live automation environment handling real lead pipelines.</p>
+      <div class="cta-buttons">
+        <a href="#" class="btn-primary">&#128172; Audit My Lead Follow-Up System</a>
+        <a href="#" class="btn-outline">&#9881;&#65039; Implement This In My GHL Account</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <p>Built with GoHighLevel · Webhooks · Workflow Automation &nbsp;|&nbsp; Case Study Portfolio</p>
+    </div>
+  </footer>
+
+  <!-- IMAGE MODAL -->
+  <div id="imgModal" class="modal">
+    <span class="modal-close">&times;</span>
+    <img class="modal-content" id="modalImg" />
+  </div>
+
+  <script>
+    const modal = document.getElementById("imgModal");
+    const modalImg = document.getElementById("modalImg");
+    const closeBtn = document.querySelector(".modal-close");
+
+    const images = document.querySelectorAll(".clickable-img");
+
+    images.forEach(img => {
+      img.addEventListener("click", function () {
+        modalImg.src = this.src;
+        modal.style.display = "block";
+        modal.offsetHeight;
+        modal.classList.add("show");
+      });
+    });
+
+    function closeModal() {
+      modal.classList.remove("show");
+      setTimeout(() => { modal.style.display = "none"; }, 200);
+    }
+
+    closeBtn.onclick = closeModal;
+    modal.onclick = function (e) { if (e.target === modal) closeModal(); };
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeModal(); });
+  </script>
+
+</body>
+</html>
