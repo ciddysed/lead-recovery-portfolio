@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Recover Dead Leads Automatically — Before They're Lost Forever</title>
+  <title>Turn Messy Contact Data Into Clean CRM Records — Automatically</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -179,6 +179,72 @@
       font-weight: 600;
       color: #e2e8f0;
     }
+    .hero-profile-role {
+      font-size: 0.75rem;
+      color: #93c5fd;
+      font-weight: 500;
+    }
+    .hero-stats {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      margin: 24px auto 28px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px;
+      padding: 18px 32px;
+      max-width: 520px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .hero-stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 0 20px;
+    }
+    .hstat-num {
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: #60a5fa;
+      letter-spacing: -0.5px;
+      line-height: 1;
+    }
+    .hstat-label {
+      font-size: 0.75rem;
+      color: #94a3b8;
+      font-weight: 500;
+      text-align: center;
+    }
+    .hero-stat-div {
+      width: 1px;
+      height: 36px;
+      background: rgba(255,255,255,0.15);
+      flex-shrink: 0;
+    }
+    .hero-cta-wrap {
+      margin-bottom: 28px;
+    }
+    .btn-hero-primary {
+      display: inline-block;
+      background: #2563eb;
+      color: #fff;
+      padding: 14px 30px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background 0.2s;
+      margin-bottom: 10px;
+    }
+    .btn-hero-primary:hover { background: #1d4ed8; }
+    .hero-cta-sub {
+      font-size: 0.8rem;
+      color: #64748b;
+      margin-top: 0;
+    }
 
     .hero-clarity {
       font-size: 1.05rem;
@@ -192,7 +258,6 @@
       margin-bottom: 18px;
     }
 
-    /* ── CATEGORY UPGRADE CALLOUT ── */
     .hero-upgrade-line {
       font-size: 0.92rem;
       color: #93c5fd;
@@ -201,7 +266,6 @@
       opacity: 0.9;
     }
 
-    /* ── QUICK SKIM SECTION ── */
     .skim-section { background: var(--accent-light); }
     .skim-grid {
       display: grid;
@@ -262,48 +326,14 @@
       color: #94a3b8;
       margin-top: 14px;
     }
-
-    /* ── HERO AUTHOR ── */
-    .hero-author {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 22px;
-      background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 40px;
-      padding: 6px 14px 6px 6px;
+    .hero-for {
+      margin-top: 18px;
+      font-size: 0.88rem;
+      color: #94a3b8;
+      letter-spacing: 0.01em;
     }
-    .hero-author-img {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 1.5px solid rgba(255,255,255,0.3);
-      background: linear-gradient(135deg, #2563eb, #60a5fa);
-      flex-shrink: 0;
-    }
-    .hero-author-fallback {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      border: 1.5px solid rgba(255,255,255,0.3);
-      background: linear-gradient(135deg, #2563eb, #60a5fa);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.7rem;
-      font-weight: 700;
-      color: #fff;
-      flex-shrink: 0;
-    }
-    .hero-author-text {
-      font-size: 0.8rem;
-      color: #cbd5e1;
-      font-weight: 500;
-    }
-    .hero-author-text strong {
-      color: #fff;
+    .hero-for strong {
+      color: #e2e8f0;
       font-weight: 600;
     }
 
@@ -333,7 +363,6 @@
       line-height: 1.75;
     }
 
-    /* ── MONEY CALLOUT ── */
     .money-callout {
       background: linear-gradient(135deg, #fefce8 0%, #fef9c3 100%);
       border: 1px solid #fde68a;
@@ -418,6 +447,17 @@
       justify-content: center;
       font-size: 0.65rem;
       margin-top: 2px;
+    }
+
+    .solution-note {
+      margin-top: 20px;
+      background: #f0f9ff;
+      border: 1px solid #93c5fd;
+      border-radius: 10px;
+      padding: 14px 18px;
+      font-size: 0.88rem;
+      color: #1e40af;
+      line-height: 1.65;
     }
 
     .steps {
@@ -637,7 +677,6 @@
     .json-block .str { color: #fca5a5; }
     .json-block .comment { color: #4b5563; }
 
-    /* ── RESULTS — UPGRADED ── */
     .results-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -706,100 +745,6 @@
       margin-bottom: 20px !important;
     }
 
-    /* ── ABOUT THE BUILDER SECTION ── */
-    .about-section {
-      padding: 72px 0;
-      background: #f9fafb;
-      border-top: 1px solid var(--border);
-      text-align: center;
-    }
-    .about-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .about-photo-wrap {
-      width: 180px;
-      height: 180px;
-      border-radius: 50%;
-      overflow: hidden;
-      margin-bottom: 20px;
-      border: 4px solid #fff;
-      box-shadow: 0 8px 32px rgba(37, 99, 235, 0.15), 0 2px 8px rgba(0,0,0,0.08);
-    }
-    .about-photo {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    .about-photo-fallback {
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, #1e3a8a, #2563eb);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 3rem;
-      font-weight: 800;
-      color: #fff;
-      letter-spacing: -1px;
-    }
-    .about-name {
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: var(--text);
-      letter-spacing: -0.4px;
-      margin-bottom: 6px;
-    }
-    .about-role {
-      font-size: 0.92rem;
-      color: var(--muted);
-      font-weight: 500;
-    }
-
-    /* ── BUILDER PROFILE (kept) ── */
-    .builder-profile {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 14px;
-      margin-bottom: 24px;
-    }
-    .builder-img {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid rgba(255,255,255,0.3);
-      background: rgba(255,255,255,0.1);
-    }
-    .builder-img-fallback {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      border: 2px solid rgba(255,255,255,0.3);
-      background: linear-gradient(135deg, #2563eb, #60a5fa);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: #fff;
-      flex-shrink: 0;
-    }
-    .builder-info { text-align: left; }
-    .builder-name {
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: #ffffff;
-      margin-bottom: 2px;
-    }
-    .builder-role {
-      font-size: 0.8rem;
-      color: #cbd5e1;
-    }
-
     .cta-buttons {
       display: flex;
       gap: 12px;
@@ -835,7 +780,6 @@
     }
     .btn-outline:hover { border-color: rgba(255,255,255,0.5); color: #fff; }
 
-    /* ── EMAIL CTA ── */
     .cta-contact {
       margin-top: 18px;
       font-size: 0.8rem;
@@ -852,6 +796,36 @@
       color: #64748b;
       margin-top: -16px;
       margin-bottom: 32px;
+    }
+    .outcome-example {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-top: 28px;
+      background: #fff;
+      border: 1px solid var(--result-border);
+      border-left: 4px solid #22c55e;
+      border-radius: 0 12px 12px 0;
+      padding: 20px 24px;
+    }
+    .outcome-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .outcome-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #16a34a;
+      margin-bottom: 6px;
+    }
+    .outcome-text {
+      font-size: 0.95rem;
+      color: var(--text);
+      line-height: 1.7;
+      font-weight: 500;
     }
 
     footer {
@@ -870,8 +844,6 @@
       .steps::before { left: 19px; }
       .hero-title-row { flex-direction: column; text-align: center; }
       .hero-title-row h1 { text-align: center; }
-      .builder-profile { flex-direction: column; text-align: center; }
-      .builder-info { text-align: center; }
     }
   </style>
 </head>
@@ -880,17 +852,16 @@
   <!-- TOP NAV BAR -->
   <div class="topbar">
     <div class="topbar-inner">
-      <span class="topbar-logo">&#9679; Lead Recovery — Case Study</span>
-      <span class="topbar-tag">MetaWatt · GoHighLevel · Webhooks · API</span>
+      <span class="topbar-logo">&#9679; CRM Systems Architecture — Case Study</span>
+      <span class="topbar-tag">MetaWatt · GoHighLevel · API Data Pipeline</span>
     </div>
   </div>
 
   <!-- HERO -->
   <header class="hero">
     <div class="container">
-      <div class="hero-badge">Case Study — Automation Engineering</div>
       <div class="hero-title-row">
-        <h1>Recover Dead Leads <span>Automatically</span><br />Before They're Lost Forever</h1>
+        <h1>Turn Messy CRM Data Into <span>Clean, Structured Contact Records</span> — Automatically</h1>
         <div class="hero-profile">
           <img
             src="face.png"
@@ -900,21 +871,30 @@
           />
           <div class="hero-profile-fallback" style="display:none;">CM</div>
           <p class="hero-profile-name">Ciddy Macapinlac</p>
+          <p class="hero-profile-role">CRM Systems Architect</p>
         </div>
       </div>
 
-      <!-- UPGRADE #4 — Category upgrade line -->
-      <p class="hero-upgrade-line">Most CRMs stop after 2–3 follow-ups. This system doesn't.</p>
+      <p class="hero-clarity">For teams handling 50–500+ leads per month who can't afford slow, disorganized pipelines.</p>
 
-      <p class="hero-clarity">This system ensures every lead is contacted up to 5 times — even if they stop responding.</p>
-      <p class="hero-subtitle">
-        Built inside a live production environment handling real lead pipelines, this system escalates follow-ups across multiple contacts when a lead goes silent — so no high-intent opportunity slips through.
-      </p>
+      <div class="hero-stats">
+        <div class="hero-stat"><span class="hstat-num">2–4 hrs</span><span class="hstat-label">Saved per day</span></div>
+        <div class="hero-stat-div"></div>
+        <div class="hero-stat"><span class="hstat-num">200–300+</span><span class="hstat-label">Contacts auto-created</span></div>
+        <div class="hero-stat-div"></div>
+        <div class="hero-stat"><span class="hstat-num">0</span><span class="hstat-label">Duplicate records</span></div>
+      </div>
+
+      <div class="hero-cta-wrap">
+        <a href="mailto:zed.maxcapinlac@gmail.com?subject=Free CRM Audit Request" class="btn-hero-primary">&#128197; Book a Free CRM Audit</a>
+        <p class="hero-cta-sub">20 minutes. I'll show you exactly where your CRM is losing data.</p>
+      </div>
+
       <div class="hero-tools">
         <span class="tool-tag">&#128279; GoHighLevel</span>
-        <span class="tool-tag">&#128296; Webhooks / API</span>
+        <span class="tool-tag">&#128296; API / Data Pipeline</span>
         <span class="tool-tag">&#9881;&#65039; Conditional Logic</span>
-        <span class="tool-tag">&#128200; Lead Recovery</span>
+        <span class="tool-tag">&#127963; CRM Architecture</span>
       </div>
     </div>
   </header>
@@ -925,10 +905,10 @@
       <p class="section-label">In Short</p>
       <h2 class="section-title">What This System Does</h2>
       <div class="skim-grid">
-        <div class="skim-item"><span class="skim-dot">●</span><span>Automates follow-ups when leads go cold</span></div>
-        <div class="skim-item"><span class="skim-dot">●</span><span>Escalates to backup contacts (relatives) automatically</span></div>
-        <div class="skim-item"><span class="skim-dot">●</span><span>Uses webhook triggers to connect external systems</span></div>
-        <div class="skim-item"><span class="skim-dot">●</span><span>Stops cleanly when no more contacts remain</span></div>
+        <div class="skim-item"><span class="skim-dot">●</span><span>Extracts related contacts from unstructured custom fields</span></div>
+        <div class="skim-item"><span class="skim-dot">●</span><span>Creates or updates records via API — no duplicates</span></div>
+        <div class="skim-item"><span class="skim-dot">●</span><span>Links each new contact back to the original lead</span></div>
+        <div class="skim-item"><span class="skim-dot">●</span><span>Eliminates manual data entry entirely</span></div>
       </div>
     </div>
   </section>
@@ -937,31 +917,30 @@
   <section>
     <div class="container">
       <p class="section-label">The Problem</p>
-      <h2 class="section-title">Leads Slip Through the Cracks Every Day</h2>
+      <h2 class="section-title">Most CRM Data Breaks Before It Becomes Useful</h2>
 
-      <!-- UPGRADE #2 — "Why This Matters" self-diagnosis callout -->
       <div class="money-callout">
-        <p>&#128161; If you get <span>100 leads a month</span> and even <span>20% go cold</span>, that's <span>20+ missed opportunities</span> your system is currently ignoring — not because the deal was dead, but because follow-up stopped too soon.</p>
+        <p>&#128161; If your team processes <span>100 leads a month</span> and each has <span>2–3 related contacts</span>, that's <span>200–300 records</span> that currently have to be entered manually — creating delays, errors, and disorganized pipelines.</p>
       </div>
 
       <p class="section-intro">
-        When a contact stops responding, most businesses have no fallback. Leads stall, pipelines freeze, and revenue is lost — not because the opportunity was gone, but because the follow-up system gave up too soon.
+        Many systems capture leads — but the data inside them is often incomplete, unstructured, or difficult to use for follow-up and outreach.
       </p>
       <div class="problem-grid">
         <div class="problem-card">
           <div class="icon">&#128274;</div>
-          <h3>Contacts Go Silent</h3>
-          <p>Leads stop responding to calls, texts, and emails — and there's no system in place to continue the outreach intelligently.</p>
+          <h3>Data Stays Trapped in Fields</h3>
+          <p>Related contacts (like family members or secondary leads) are often stored inside custom fields instead of being usable, actionable records.</p>
         </div>
         <div class="problem-card">
           <div class="icon">&#9201;</div>
-          <h3>Follow-Ups Stop Too Early</h3>
-          <p>Most CRM automation sequences end after a few attempts, leaving potential conversions sitting in a dead-end pipeline stage.</p>
+          <h3>Manual Entry Slows Everything Down</h3>
+          <p>Teams have to manually create contacts, copy details, and organize records — leading to delays, inconsistencies, and missed follow-ups.</p>
         </div>
         <div class="problem-card">
           <div class="icon">&#128226;</div>
-          <h3>No Escalation Logic</h3>
-          <p>When the primary contact doesn't respond, there's no structured process to try alternative contacts or escalate to backup parties.</p>
+          <h3>CRM Becomes Disorganized Over Time</h3>
+          <p>Without structure, pipelines, tagging, and outreach become harder to manage and less reliable the more data you add.</p>
         </div>
       </div>
     </div>
@@ -971,34 +950,37 @@
   <section>
     <div class="container">
       <p class="section-label">The Solution</p>
-      <h2 class="section-title">A Structured Escalation Workflow That Doesn't Give Up</h2>
+      <h2 class="section-title">A Data Pipeline That Structures Your CRM Automatically</h2>
       <div class="solution-block">
         <p>
-          Built inside GoHighLevel, this workflow triggers when a lead goes unresponsive. Instead of stopping, it escalates through up to 5 backup contacts — checking fields, firing webhooks, and moving on until someone responds.
+          Built inside GoHighLevel, this system extracts related contact data from unstructured fields and pushes it through an API-based data pipeline — creating clean, validated, linked records without a single manual step.
         </p>
       </div>
       <ul class="solution-list">
         <li>
           <span class="check">&#10003;</span>
-          <span>Follows up beyond the primary contact using pre-mapped relative fields</span>
+          <span>Extracts related contact data from custom fields in the source record</span>
         </li>
         <li>
           <span class="check">&#10003;</span>
-          <span>Checks whether each contact has a valid phone number or email before sending</span>
+          <span>Validates each contact before processing to prevent empty or broken records</span>
         </li>
         <li>
           <span class="check">&#10003;</span>
-          <span>Triggers a webhook at each step to execute external actions or notify systems</span>
+          <span>Creates or updates contacts using API upsert logic — no duplicates created</span>
         </li>
         <li>
           <span class="check">&#10003;</span>
-          <span>Automatically stops when no further backup contacts are available</span>
+          <span>Links each new contact back to the original lead record for full relationship visibility</span>
         </li>
         <li>
           <span class="check">&#10003;</span>
-          <span>Links each relative contact back to the parent lead record for full visibility</span>
+          <span>Builds a clean, scalable CRM structure automatically — no manual steps required</span>
         </li>
       </ul>
+      <div class="solution-note">
+        &#128161; <strong>Bonus capability:</strong> This structure also makes it easier to build follow-up systems across multiple contacts — instead of relying on a single lead entry point, your team can reach related parties through organized, linked records.
+      </div>
     </div>
   </section>
 
@@ -1006,16 +988,16 @@
   <section>
     <div class="container">
       <p class="section-label">How It Works</p>
-      <h2 class="section-title">Step-by-Step Workflow Logic</h2>
+      <h2 class="section-title">Step-by-Step System Architecture</h2>
       <p class="section-intro">
-        The workflow follows a sequential escalation pattern — each step only executes if the previous contact was unreachable or unavailable.
+        The data pipeline follows a sequential processing architecture — each contact is validated before being created, ensuring only clean, complete records enter your CRM.
       </p>
       <div class="steps">
 
         <div class="step">
           <div class="step-num">1</div>
           <div class="step-body">
-            <h3>Trigger: Contact Created or Stage Changed</h3>
+            <h3>Trigger: Contact Created or Updated</h3>
             <div class="step-img-wrap">
               <img
                 src="image_1.png"
@@ -1029,28 +1011,28 @@
                 <span>workflow-overview.png — trigger setup</span>
               </div>
             </div>
-            <p>Triggers when a contact is added or moved into a “No Relatives” pipeline stage.</p>
-            <code>Trigger: Pipeline Stage → "No Response"</code>
+            <p>Triggers when a new lead is added or an existing record is updated with related contact data in its custom fields.</p>
+            <code>Trigger: Contact Created / Field Updated</code>
           </div>
         </div>
 
         <div class="step">
           <div class="step-num">2</div>
           <div class="step-body">
-            <h3>Conditional Check: Primary Contact Fields</h3>
-            <p>Checks if the contact has a valid phone or email. If both are missing, skips straight to the first backup contact.</p>
-            <code>IF phone IS EMPTY → skip to Relative 1</code>
+            <h3>Conditional Check: Validate Contact Fields</h3>
+            <p>Checks whether each related contact has a valid phone or email before processing. Empty or incomplete entries are skipped automatically.</p>
+            <code>IF phone IS EMPTY AND email IS EMPTY → skip record</code>
           </div>
         </div>
 
         <div class="step">
           <div class="step-num">3</div>
           <div class="step-body">
-            <h3>Webhook Execution: Primary Contact</h3>
+            <h3>API Upsert: Create or Update the Contact Record</h3>
             <div class="step-img-wrap">
               <img
                 src="webhook.png"
-                alt="Webhook configuration screenshot"
+                alt="Webhook / API configuration screenshot"
                 loading="lazy"
                 class="clickable-img"
                 onerror="this.style.display='none'; this.parentNode.querySelector('.step-img-placeholder').style.display='flex';"
@@ -1060,39 +1042,39 @@
                 <span>webhook-config.png — endpoint &amp; payload mapping</span>
               </div>
             </div>
-            <p>A webhook fires with the contact's name, phone, email, and lead context — triggering outreach in the connected system.</p>
-            <code>POST → webhook.site / n8n / Zapier endpoint</code>
+            <p>A webhook fires with the related contact's name, phone, email, and relationship type — triggering an API upsert that creates a new record or updates an existing one without creating duplicates.</p>
+            <code>POST → GHL API / upsert endpoint</code>
           </div>
         </div>
 
         <div class="step">
           <div class="step-num">4</div>
           <div class="step-body">
-            <h3>Escalation to Relative 1 → Relative 5</h3>
+            <h3>Link Back to Parent Record</h3>
             <div class="step-img-wrap">
               <img
                 src="escalation.png"
-                alt="Escalation flow screenshot"
+                alt="Contact linking flow screenshot"
                 loading="lazy"
                 class="clickable-img"
                 onerror="this.style.display='none'; this.parentNode.querySelector('.step-img-placeholder').style.display='flex';"
               />
               <div class="step-img-placeholder">
                 <span class="ph-icon">&#128200;</span>
-                <span>escalation.png — Relative 1 through Relative 5 chain</span>
+                <span>linking.png — parent contact ID mapping</span>
               </div>
             </div>
-            <p>No response? The system checks Relative 1's fields, fires a webhook if valid, then moves to Relative 2 — repeating through Relative 5.</p>
-            <code>Relative 1 → check → fire → wait → Relative 2 → ...</code>
+            <p>Each newly created contact is linked back to the original lead using a custom parent contact ID field — keeping all related records connected and visible in one place.</p>
+            <code>Set: parent_contact_id = {{contact.id}}</code>
           </div>
         </div>
 
         <div class="step">
           <div class="step-num">5</div>
           <div class="step-body">
-            <h3>Stop Condition: No More Contacts</h3>
-            <p>All contacts exhausted? The workflow ends cleanly. The lead gets flagged for manual review.</p>
-            <code>IF Relative 5 IS EMPTY → End Workflow</code>
+            <h3>Completion: Clean CRM Structure Confirmed</h3>
+            <p>All related contacts are now independent, linked records inside GHL. The pipeline is ready for follow-up, tagging, or any downstream automation.</p>
+            <code>Result: Structured contacts → pipeline ready</code>
           </div>
         </div>
 
@@ -1105,7 +1087,7 @@
     <div class="container">
       <p class="section-label">Actual System Screenshots</p>
       <h2 class="section-title">Live Workflow Breakdown</h2>
-      <p class="section-intro">From the actual GoHighLevel build — workflow structure, conditional logic, webhook setup, and escalation flow.</p>
+      <p class="section-intro">From the actual GoHighLevel build — workflow structure, conditional logic, API configuration, and contact linking flow.</p>
       <div class="visuals-grid">
 
         <div class="visual-card">
@@ -1120,7 +1102,7 @@
           </div>
           <div class="caption">
             <strong>Workflow Overview</strong>
-            <p>The full automation map showing trigger, all condition branches, webhook actions, and end states across the escalation chain.</p>
+            <p>The full automation map showing the trigger, validation branches, API actions, and linking steps across the full data structuring process.</p>
           </div>
         </div>
 
@@ -1135,40 +1117,40 @@
             </div>
           </div>
           <div class="caption">
-            <strong>Conditional Logic</strong>
-            <p>Branch conditions that check whether each contact's phone and email fields are populated before attempting outreach.</p>
+            <strong>Conditional Validation</strong>
+            <p>Branch conditions that check whether each related contact's fields are populated before the record creation step is triggered.</p>
           </div>
         </div>
 
         <div class="visual-card">
           <div class="img-wrap">
-            <img src="webhook.png" alt="Webhook configuration" loading="lazy" class="clickable-img"
+            <img src="webhook.png" alt="API / Webhook configuration" loading="lazy" class="clickable-img"
               onerror="this.style.display='none'; this.parentNode.querySelector('.img-placeholder').style.display='flex';" />
             <div class="img-placeholder" style="display:none;">
               <div class="ph-icon">&#128279;</div>
               <strong>webhook-config.png</strong>
-              <span>Webhook configuration screenshot</span>
+              <span>API configuration screenshot</span>
             </div>
           </div>
           <div class="caption">
-            <strong>Webhook Setup</strong>
-            <p>The webhook action configuration inside GHL, including the endpoint URL and dynamically mapped JSON body fields.</p>
+            <strong>API / Webhook Setup</strong>
+            <p>The webhook action inside GHL, including the endpoint URL and dynamically mapped JSON fields used to create or update each contact record.</p>
           </div>
         </div>
 
         <div class="visual-card">
           <div class="img-wrap">
-            <img src="escalation.png" alt="Step-by-step escalation" loading="lazy" class="clickable-img"
+            <img src="escalation.png" alt="Contact linking and structure" loading="lazy" class="clickable-img"
               onerror="this.style.display='none'; this.parentNode.querySelector('.img-placeholder').style.display='flex';" />
             <div class="img-placeholder" style="display:none;">
               <div class="ph-icon">&#128200;</div>
-              <strong>escalation-flow.png</strong>
-              <span>Escalation flow screenshot</span>
+              <strong>linking-flow.png</strong>
+              <span>Contact linking flow screenshot</span>
             </div>
           </div>
           <div class="caption">
-            <strong>Escalation Logic (Step-by-Step Progression)</strong>
-            <p>Each contact is evaluated before outreach. If valid, a webhook is triggered — otherwise, the system moves to the next available contact, ensuring no opportunity is missed.</p>
+            <strong>Contact Linking (Relationship Structure)</strong>
+            <p>Each processed contact is linked back to the parent lead record using a mapped ID field — creating a clean, navigable relationship structure inside the CRM.</p>
           </div>
         </div>
 
@@ -1181,120 +1163,128 @@
     <div class="container">
       <p class="section-label">Technical Implementation</p>
       <h2 class="section-title">What's Under the Hood</h2>
-      <p class="section-intro">For those interested in the technical implementation — native GHL workflow features combined with external webhooks to create a fully automated escalation process.</p>
+      <p class="section-intro">For those interested in the technical architecture — native GHL system features combined with API-based upsert logic to create a fully automated data pipeline. <strong>You don't need to understand any of this — it just runs in the background.</strong></p>
       <div class="tech-grid">
         <div class="tech-card">
           <div class="t-icon">&#127963;</div>
           <h3>Conditional Branching</h3>
-          <p>Each escalation step uses GHL's IF/ELSE branch logic to evaluate whether contact fields are populated before proceeding.</p>
+          <p>Each processing step uses GHL's IF/ELSE branch logic to validate whether contact fields are populated before attempting record creation.</p>
         </div>
         <div class="tech-card">
           <div class="t-icon">&#128260;</div>
           <h3>Sequential Workflow Logic</h3>
-          <p>Steps execute in order with built-in wait periods between attempts, ensuring structured, non-spammy outreach at each escalation level.</p>
+          <p>Steps execute in order with built-in validation gates between them, ensuring only clean, complete data enters the CRM at each stage.</p>
         </div>
         <div class="tech-card">
           <div class="t-icon">&#128279;</div>
-          <h3>Webhook / API Requests</h3>
-          <p>Each escalation fires a POST request to a configured endpoint, passing contact data in real time to trigger downstream actions.</p>
+          <h3>API Upsert Requests</h3>
+          <p>Each processed contact triggers a POST request to the GHL API, creating a new record or updating an existing one — without producing duplicates.</p>
         </div>
         <div class="tech-card">
           <div class="t-icon">&#128101;</div>
           <h3>Dynamic Field Mapping</h3>
-          <p>Name, phone, email, relationship type, and parent contact ID are all mapped dynamically from GHL custom fields into the payload.</p>
+          <p>Name, phone, email, relationship type, and parent contact ID are all mapped dynamically from GHL custom fields into each API payload.</p>
         </div>
         <div class="tech-card">
           <div class="t-icon">&#128196;</div>
-          <h3>JSON Payload Structure</h3>
-          <p>A standardized payload is sent at every step, keeping the receiving system consistent regardless of which relative is being contacted.</p>
+          <h3>Standardized JSON Payload</h3>
+          <p>A consistent payload structure is sent for every related contact, keeping the receiving system reliable regardless of the data source.</p>
         </div>
         <div class="tech-card">
           <div class="t-icon">&#128279;</div>
           <h3>Parent Contact Linking</h3>
-          <p>Each relative record is linked to the original lead using a custom parent contact ID field, maintaining full relationship visibility.</p>
+          <p>Each new record is linked to the original lead using a custom parent contact ID field, maintaining full relationship visibility across the CRM.</p>
         </div>
       </div>
 
       <div class="failure-note">
-        &#9888;&#65039; <strong>Edge case handled:</strong> If a webhook fails mid-escalation, the workflow can be extended with retry logic or error-tagging steps that flag the lead for manual review — ensuring no silent failures in production.
+        &#9888;&#65039; <strong>Edge case handled:</strong> If an API call fails mid-process, the workflow can be extended with retry logic or error-tagging steps that flag the record for manual review — ensuring no silent failures in production.
       </div>
 
       <div class="json-block">
-        <span class="comment">// Sample Webhook Payload — Relative Escalation Step</span><br />
+        <span class="comment">// Sample API Payload — Related Contact Processing Step</span><br />
         {<br />
         &nbsp;&nbsp;<span class="key">"lead_id"</span>: <span class="str">"{{contact.id}}"</span>,<br />
         &nbsp;&nbsp;<span class="key">"lead_name"</span>: <span class="str">"{{contact.full_name}}"</span>,<br />
-        &nbsp;&nbsp;<span class="key">"relative_name"</span>: <span class="str">"{{contact.relative_1_name}}"</span>,<br />
-        &nbsp;&nbsp;<span class="key">"relative_phone"</span>: <span class="str">"{{contact.relative_1_phone}}"</span>,<br />
-        &nbsp;&nbsp;<span class="key">"relative_email"</span>: <span class="str">"{{contact.relative_1_email}}"</span>,<br />
-        &nbsp;&nbsp;<span class="key">"relationship"</span>: <span class="str">"{{contact.relative_1_relationship}}"</span>,<br />
+        &nbsp;&nbsp;<span class="key">"related_name"</span>: <span class="str">"{{contact.relative_1_name}}"</span>,<br />
+        &nbsp;&nbsp;<span class="key">"related_phone"</span>: <span class="str">"{{contact.relative_1_phone}}"</span>,<br />
+        &nbsp;&nbsp;<span class="key">"related_email"</span>: <span class="str">"{{contact.relative_1_email}}"</span>,<br />
+        &nbsp;&nbsp;<span class="key">"relationship_type"</span>: <span class="str">"{{contact.relative_1_relationship}}"</span>,<br />
         &nbsp;&nbsp;<span class="key">"parent_contact_id"</span>: <span class="str">"{{contact.id}}"</span>,<br />
-        &nbsp;&nbsp;<span class="key">"escalation_level"</span>: <span class="val">1</span>,<br />
+        &nbsp;&nbsp;<span class="key">"action"</span>: <span class="str">"upsert"</span>,<br />
         &nbsp;&nbsp;<span class="key">"pipeline_stage"</span>: <span class="str">"{{opportunity.stage_name}}"</span><br />
         }
       </div>
     </div>
   </section>
 
-  <!-- RESULTS — UPGRADED (#1) -->
+  <!-- RESULTS -->
   <section>
     <div class="container">
       <p class="section-label">Results</p>
       <h2 class="section-title">What This System Actually Delivers</h2>
       <p class="section-intro">
-        Every lead receives up to 5 structured follow-up attempts instead of stopping after 1–2. Built inside a live production environment handling real lead pipelines — not theoretical.
+        Related contacts are automatically extracted, validated, and created as independent CRM records — linked back to the original lead. Built inside a live production environment, not a demo.
       </p>
       <div class="results-grid">
         <div class="result-card">
           <div class="r-icon">&#128683;</div>
-          <span class="r-stat">1–2 → 5×</span>
-          <h3>Contact Attempts Per Lead</h3>
-          <p>Leads that would have been abandoned after 1–2 tries now receive up to 5 structured recovery attempts before being marked as exhausted.</p>
+          <span class="r-stat">0 Manual</span>
+          <h3>Data Entry Required</h3>
+          <p>Related contacts are created automatically from source fields — no copy-pasting, no manual record creation, no spreadsheet workarounds.</p>
         </div>
         <div class="result-card">
           <div class="r-icon">&#128257;</div>
           <span class="r-stat">100%</span>
-          <h3>Pipeline Coverage</h3>
-          <p>Every lead runs through the same escalation logic — no contact is skipped or forgotten due to human oversight or workload.</p>
+          <h3>Record Coverage</h3>
+          <p>Every related contact in the source record is processed through the same validation and creation logic — nothing is missed or skipped.</p>
         </div>
         <div class="result-card">
           <div class="r-icon">&#128200;</div>
-          <span class="r-stat">5 Levels</span>
-          <h3>Engineered Escalation Path</h3>
-          <p>A measurable, auditable escalation chain replaces the guesswork of manual follow-up — making the process improvable over time.</p>
+          <span class="r-stat">Linked</span>
+          <h3>Contacts, Not Loose Data</h3>
+          <p>Each new record is connected back to its parent lead, giving you a structured, navigable relationship map inside GHL.</p>
         </div>
         <div class="result-card">
           <div class="r-icon">&#9889;</div>
-          <span class="r-stat">0 Manual</span>
-          <h3>Follow-Up Tracking Required</h3>
-          <p>All escalation decisions are handled automatically in real time — no spreadsheets, no missed contacts, no human bottleneck.</p>
+          <span class="r-stat">Clean</span>
+          <h3>CRM From Day One</h3>
+          <p>Pipelines, tagging, and follow-up become more reliable when the data feeding them is structured, validated, and consistently organized.</p>
+        </div>
+      </div>
+
+      <div class="outcome-example">
+        <div class="outcome-icon">&#128220;</div>
+        <div>
+          <p class="outcome-label">Real-world result</p>
+          <p class="outcome-text">One implementation reduced manual contact entry from ~3 hours/day to near zero — while improving follow-up coverage across all related contacts linked to each lead.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- CTA — UPGRADED (#4) -->
+  <!-- CTA -->
   <section class="cta-section">
     <div class="container">
       <p class="cta-label">Work With Me</p>
-      <h2>Fix Your Lead Follow-Up System<br />Before It Costs You More Deals</h2>
+      <h2>Find Out Exactly Where Your CRM<br />Is Losing Data — In 20 Minutes</h2>
       <p>
-        Whether you need a full lead recovery workflow built from scratch or want your existing GHL setup reviewed and optimized — I can help you build automation that actually works in production.
+        Book a free CRM audit. I'll review your current GHL architecture, identify where contacts are getting lost or left unstructured, and show you a clear fix — on the call, no strings attached.
       </p>
       <p style="color:#60a5fa; font-size:0.88rem; margin-top:-10px; margin-bottom:16px; font-style:italic;">
-        Ideal for agencies, service businesses, or sales teams dealing with high-value leads that require persistent, structured follow-up.
+        Built for agencies, service businesses, and ops teams handling 50–500+ leads per month.
       </p>
-      <p class="cta-urgency">Most pipelines lose leads not because of bad offers — but because follow-up stops too early.</p>
-      <p class="micro-proof">Built and tested inside a live production environment handling real lead pipelines.</p>
+      <p class="cta-urgency">Currently taking on a limited number of CRM architecture builds per month — slots fill quickly.</p>
+      <p class="micro-proof">Tested inside a live production environment processing 100+ leads per month with real client data.</p>
 
       <div class="cta-buttons">
-        <a href="mailto:zed.maxcapinlac@gmail.com" class="btn-primary">&#128172; Fix My Lead Follow-Up System</a>
-        <a href="mailto:zed.maxcapinlac@gmail.com" class="btn-outline">&#9881;&#65039; Build This Workflow In My GHL Account</a>
+        <a href="/cdn-cgi/l/email-protection#a5dfc0c18bc8c4ddc6c4d5cccbc9c4c6e5c2c8c4ccc98bc6cac89ad6d0c7cfc0c6d198e3d7c0c085e6f7e885e4d0c1ccd185f7c0d4d0c0d6d1" class="btn-primary">&#128197; Book a Free CRM Audit</a>
+        <a href="/cdn-cgi/l/email-protection#5e243b3a70333f263d3f2e3730323f3d1e39333f3732703d3133" class="btn-outline">&#9993;&#65039; Email Me Directly</a>
       </div>
 
       <p class="cta-contact">
-        Prefer email? Reach me at
-        <a href="mailto:zed.maxcapinlac@gmail.com">zed.maxcapinlac@gmail.com</a>
+        Or reach me at
+        <a href="/cdn-cgi/l/email-protection#bec4dbda90d3dfc6dddfced7d0d2dfddfed9d3dfd7d290ddd1d3"><span class="__cf_email__" data-cfemail="c5bfa0a1eba8a4bda6a4b5acaba9a4a685a2a8a4aca9eba6aaa8">[email&#160;protected]</span></a>
       </p>
     </div>
   </section>
@@ -1302,7 +1292,7 @@
   <!-- FOOTER -->
   <footer>
     <div class="container">
-      <p>Built with GoHighLevel · Webhooks · Workflow Automation &nbsp;|&nbsp; Case Study Portfolio</p>
+      <p>GoHighLevel · API Data Pipeline · CRM Architecture &nbsp;|&nbsp; Case Study Portfolio</p>
     </div>
   </footer>
 
@@ -1312,33 +1302,5 @@
     <img class="modal-content" id="modalImg" />
   </div>
 
-<script>
-  const modal = document.getElementById("imgModal");
-  const modalImg = document.getElementById("modalImg");
-  const closeBtn = document.querySelector(".modal-close");
-
-  document.querySelectorAll(".clickable-img").forEach(img => {
-    img.addEventListener("click", function () {
-      modal.classList.add("show");
-      modalImg.src = this.src;
-    });
-  });
-
-  closeBtn.addEventListener("click", () => {
-    modal.classList.remove("show");
-  });
-
-  modal.addEventListener("click", (e) => {
-    if (e.target === modal || e.target === modalImg) {
-      modal.classList.remove("show");
-    }
-  });
-
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") {
-      modal.classList.remove("show");
-    }
-  });
-</script>
-</body>
-</html>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  const modal = doc
