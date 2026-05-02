@@ -4,772 +4,1115 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GHL Workflow Case Study — Ciddy Macapinlac</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300;1,9..144,400&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #ffffff;
-      --text: #1a1a2e;
-      --muted: #5a5a72;
-      --accent: #2563eb;
-      --accent-light: #eff6ff;
-      --accent-mid: #bfdbfe;
-      --border: #e5e7eb;
-      --card: #f9fafb;
-      --tag-bg: #dbeafe;
-      --tag-text: #1d4ed8;
-      --step-bg: #f0f9ff;
-      --step-border: #93c5fd;
-      --result-bg: #f0fdf4;
-      --result-border: #86efac;
-      --result-text: #166534;
-      --cta-bg: #1e3a8a;
-      --cta-text: #ffffff;
-      --cta-accent: #60a5fa;
+      --ink: #0a0908;
+      --ink-soft: #141210;
+      --paper: #f4f1ea;
+      --paper-dark: #eae6dc;
+      --paper-mid: #e2ddd3;
+      --white: #ffffff;
+      --accent: #bf3a14;
+      --accent-glow: rgba(191,58,20,0.12);
+      --accent-dim: #7a2208;
+      --muted: #6b6355;
+      --muted-light: #958d80;
+      --border: #d0cac0;
+      --border-dark: #b0aa9f;
+      --mono: 'DM Mono', monospace;
+      --serif: 'Fraunces', Georgia, serif;
+      --code-bg: #141210;
+      --code-surface: #1c1a16;
     }
 
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      background: var(--bg);
-      color: var(--text);
+      font-family: var(--serif);
+      background: var(--paper);
+      color: var(--ink);
       line-height: 1.7;
-      font-size: 16px;
+      font-size: 17px;
+      font-weight: 300;
     }
 
-    .container {
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 0 24px;
+    /* Subtle grain overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.028'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
     }
 
-    /* TOP NAV */
+    .container { max-width: 920px; margin: 0 auto; padding: 0 36px; }
+
+    /* ── TOPBAR ── */
     .topbar {
-      background: #fff;
-      border-bottom: 1px solid var(--border);
-      padding: 14px 0;
+      background: var(--ink);
       position: sticky;
       top: 0;
-      z-index: 100;
+      z-index: 200;
+      border-bottom: 1px solid #1e1b16;
     }
     .topbar-inner {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      max-width: 860px;
+      max-width: 920px;
       margin: 0 auto;
-      padding: 0 24px;
+      padding: 0 36px;
+      height: 50px;
     }
     .topbar-logo {
-      font-weight: 700;
-      font-size: 0.95rem;
-      color: var(--accent);
-      letter-spacing: -0.3px;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: #a09888;
+      letter-spacing: 0.05em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .topbar-logo .dot { color: #6a6460; font-size: 0.55rem; }
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
     }
     .topbar-tag {
-      font-size: 0.78rem;
-      color: var(--muted);
-      background: var(--accent-light);
-      padding: 4px 10px;
-      border-radius: 20px;
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      color: #6a6460;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+    .topbar-avail {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      color: #6abf78;
+      letter-spacing: 0.05em;
+    }
+    .topbar-avail-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: #4a9658;
+      animation: pulse 2.2s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.85); } }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 100px 0 88px;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Decorative radial glow */
+    .hero::before {
+      content: '';
+      position: absolute;
+      right: -120px; top: -100px;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.025) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    /* Thin horizontal rule decoration */
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+    }
+
+    .hero-eyebrow {
+      font-family: var(--mono);
+      font-size: 0.67rem;
+      color: #a09888;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 36px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      opacity: 0;
+      animation: fadeUp 0.5s 0.1s ease forwards;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 28px; height: 1px;
+      background: #6a6460;
+      opacity: 0.8;
+    }
+
+    .hero-layout {
+      display: grid;
+      grid-template-columns: 1fr 172px;
+      gap: 52px;
+      align-items: start;
+    }
+
+    .hero h1 {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 4.8vw, 3.1rem);
+      font-weight: 300;
+      line-height: 1.18;
+      letter-spacing: -0.025em;
+      color: var(--paper);
+      margin-bottom: 36px;
+      opacity: 0;
+      animation: fadeUp 0.65s 0.2s ease forwards;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: #c4b498;
+    }
+
+    .hero-context-block {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-left: 2px solid rgba(255,255,255,0.15);
+      padding: 16px 20px;
+      margin-bottom: 28px;
+      border-radius: 0 2px 2px 0;
+      opacity: 0;
+      animation: fadeUp 0.65s 0.3s ease forwards;
+    }
+    .hero-context-block p {
+      font-family: var(--mono);
+      font-size: 0.74rem;
+      color: #7a7268;
+      line-height: 1.8;
+    }
+    .hero-context-block p strong {
+      color: #a09888;
       font-weight: 500;
     }
 
-    /* MODAL */
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 999;
-      padding-top: 60px;
-      left: 0; top: 0;
-      width: 100%; height: 100%;
-      background: rgba(15, 23, 42, 0.95);
+    .hero-meta {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: #8a8278;
+      line-height: 2.1;
       opacity: 0;
-      transition: opacity 0.2s ease;
+      animation: fadeUp 0.65s 0.35s ease forwards;
     }
-    .modal.show { display: block; opacity: 1; }
-    .modal-content {
-      display: block;
-      margin: auto;
-      max-width: 90%;
-      max-height: 85%;
-      border-radius: 10px;
-      cursor: zoom-out;
-    }
-    .modal-close {
-      position: absolute;
-      top: 20px; right: 30px;
-      color: #fff;
-      font-size: 30px;
-      cursor: pointer;
-    }
+    .hero-meta .meta-key { color: #b0a898; }
+    .hero-meta .meta-val { color: #6a6460; }
 
-    /* HERO */
-    .hero {
-      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 60%, #1d4ed8 100%);
-      color: #fff;
-      padding: 80px 0 72px;
-      text-align: center;
+    .hero-profile-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      padding-top: 6px;
+      opacity: 0;
+      animation: fadeUp 0.65s 0.25s ease forwards;
     }
-    .hero-badge {
-      display: inline-block;
-      background: rgba(96, 165, 250, 0.2);
-      border: 1px solid rgba(96, 165, 250, 0.4);
-      color: #93c5fd;
-      font-size: 0.75rem;
-      font-weight: 600;
+    .hero-img-wrap {
+      width: 148px; height: 148px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid var(--accent);
+      outline: 3px solid rgba(191,58,20,0.15);
+      position: relative;
+    }
+    .hero-img-wrap::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
+    }
+    .hero-img-wrap img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(20%) contrast(1.04);
+    }
+    .hero-img-fallback {
+      width: 148px; height: 148px;
+      border-radius: 50%;
+      background: #181410;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--mono);
+      font-size: 1.6rem;
+      color: #3a3630;
+      border: 2px solid rgba(191,58,20,0.4);
+    }
+    .hero-name {
+      font-family: var(--mono);
+      font-size: 0.66rem;
+      color: #a09888;
+      text-align: center;
+      letter-spacing: 0.05em;
+    }
+    .hero-role {
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      color: #a09888;
+      text-align: center;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      padding: 5px 14px;
-      border-radius: 20px;
-      margin-bottom: 22px;
     }
-    .hero-title-row {
+
+    /* ── CONTEXT BANNER (replaces stats bar) ── */
+    .context-banner {
+      background: var(--paper-dark);
+      border-bottom: 1px solid var(--border);
+      padding: 32px 0;
+    }
+    .context-banner-inner {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 0 36px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .context-cell {
+      background: var(--paper-dark);
+      padding: 22px 26px;
+    }
+    .context-cell-label {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      color: var(--muted-light);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 32px;
-      margin-bottom: 18px;
-      flex-wrap: wrap;
+      gap: 8px;
     }
-    .hero-title-row h1 {
-      font-size: clamp(1.9rem, 5vw, 2.8rem);
-      font-weight: 800;
+    .context-cell-label::before {
+      content: '';
+      display: inline-block;
+      width: 10px; height: 1px;
+      background: var(--muted-light);
+    }
+    .context-cell-value {
+      font-family: var(--serif);
+      font-size: 0.97rem;
+      color: var(--ink);
+      font-weight: 300;
+      line-height: 1.5;
+    }
+    .context-cell-value em {
+      font-style: italic;
+      color: var(--muted);
+    }
+
+    /* ── TAGS ── */
+    .tags-row {
+      background: var(--ink);
+      padding: 13px 0;
+      border-bottom: 1px solid #1a1814;
+    }
+    .tags-inner {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 0 36px;
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .tags-label {
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      color: #5a5450;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-right: 4px;
+    }
+    .tag {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      color: #6a6460;
+      border: 1px solid #2a2824;
+      padding: 3px 11px;
+      border-radius: 2px;
+      letter-spacing: 0.04em;
+    }
+    .tag.hi {
+      color: #c8c0b4;
+      border-color: #3a3630;
+      background: rgba(255,255,255,0.04);
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 76px 0; }
+    section + section { border-top: 1px solid var(--border); }
+
+    .section-marker {
+      font-family: var(--mono);
+      font-size: 0.61rem;
+      color: var(--muted-light);
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-marker::after {
+      content: '';
+      flex: 1;
+      max-width: 32px;
+      height: 1px;
+      background: var(--border-dark);
+      opacity: 0.8;
+    }
+
+    .section-title {
+      font-family: var(--serif);
+      font-size: clamp(1.5rem, 3vw, 2.1rem);
+      font-weight: 300;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+      color: var(--ink);
       line-height: 1.2;
-      letter-spacing: -0.5px;
-      margin-bottom: 0;
-      text-align: left;
     }
-    .hero-title-row h1 span { color: #60a5fa; }
-    .hero-profile {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-      flex-shrink: 0;
-    }
-    .hero-profile-img {
-      width: 110px; height: 110px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid rgba(255,255,255,0.3);
-      display: block;
-    }
-    .hero-profile-fallback {
-      width: 110px; height: 110px;
-      border-radius: 50%;
-      border: 3px solid rgba(255,255,255,0.3);
-      background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.8rem;
-      font-weight: 800;
-      color: #fff;
-    }
-    .hero-profile-name {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: #e2e8f0;
-    }
-    .hero-profile-role {
-      font-size: 0.75rem;
-      color: #93c5fd;
-      font-weight: 500;
+    .section-title em { font-style: italic; color: var(--muted); }
+
+    .section-body {
+      font-size: 0.97rem;
+      color: #3a3630;
+      line-height: 1.88;
+      max-width: 660px;
+      font-weight: 300;
     }
 
-    /* STATS */
-    .hero-stats {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      margin: 24px auto 10px;
-      background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 12px;
-      padding: 18px 32px;
-      max-width: 520px;
-      flex-wrap: wrap;
-    }
-    .hero-stat {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      padding: 0 20px;
-    }
-    .hstat-num {
-      font-size: 1.55rem;
-      font-weight: 800;
-      color: #60a5fa;
-      letter-spacing: -0.5px;
-      line-height: 1;
-    }
-    .hstat-label {
-      font-size: 0.75rem;
-      color: #94a3b8;
-      font-weight: 500;
-      text-align: center;
-    }
-    .hero-stat-div {
-      width: 1px; height: 36px;
-      background: rgba(255,255,255,0.15);
-      flex-shrink: 0;
-    }
-    .hero-stats-context {
-      font-size: 0.78rem;
-      color: #64748b;
-      margin: 6px auto 24px;
-      font-style: italic;
-      text-align: center;
-    }
+    /* ── SKIM (dark) ── */
+    .skim-section { background: var(--ink-soft); }
+    .skim-section .section-marker { color: #4a4840; }
+    .skim-section .section-marker::after { background: #3a3830; }
+    .skim-section .section-title { color: var(--paper); }
 
-    .hero-tools {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-bottom: 14px;
-    }
-    .tool-tag {
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.2);
-      color: #e2e8f0;
-      font-size: 0.82rem;
-      font-weight: 500;
-      padding: 5px 14px;
-      border-radius: 20px;
-    }
-    .hero-subtitle {
-      font-size: 0.95rem;
-      color: #94a3b8;
-      margin-top: 10px;
-      font-style: italic;
-    }
-
-    /* SKIM */
-    .skim-section { background: var(--accent-light); }
     .skim-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 14px;
-      margin-top: 8px;
+      gap: 1px;
+      background: #181614;
+      border: 1px solid #181614;
+      border-radius: 3px;
+      overflow: hidden;
+      margin-top: 28px;
     }
     .skim-item {
+      background: #0c0b09;
+      padding: 26px 28px;
       display: flex;
-      align-items: center;
-      gap: 12px;
-      background: #fff;
-      border: 1px solid var(--accent-mid);
-      border-radius: 10px;
-      padding: 14px 18px;
-      font-size: 0.93rem;
-      color: var(--text);
-      font-weight: 500;
+      align-items: flex-start;
+      gap: 18px;
+      transition: background 0.15s;
     }
-    .skim-dot { color: var(--accent); font-size: 0.6rem; flex-shrink: 0; }
+    .skim-item:hover { background: #101009; }
+    .skim-num {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      color: #4a4840;
+      margin-top: 4px;
+      flex-shrink: 0;
+    }
+    .skim-text {
+      font-family: var(--mono);
+      font-size: 0.77rem;
+      color: #a09888;
+      line-height: 1.7;
+    }
 
-    section { padding: 64px 0; }
-    section + section { border-top: 1px solid var(--border); }
-
-    .section-label {
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 8px;
+    /* ── CALLOUT ── */
+    .callout {
+      border-left: 3px solid var(--accent);
+      padding: 20px 26px;
+      margin: 28px 0;
+      background: rgba(191,58,20,0.04);
+      border-radius: 0 2px 2px 0;
     }
-    .section-title {
-      font-size: clamp(1.35rem, 3vw, 1.75rem);
-      font-weight: 700;
-      letter-spacing: -0.3px;
-      margin-bottom: 16px;
-      color: var(--text);
-    }
-    .section-intro {
-      color: var(--muted);
-      max-width: 640px;
+    .callout p {
+      font-family: var(--serif);
       font-size: 1rem;
-      margin-bottom: 32px;
-      line-height: 1.75;
+      color: var(--ink);
+      line-height: 1.82;
+      font-style: italic;
+      font-weight: 300;
     }
-
-    /* PROBLEM */
-    .money-callout {
-      background: linear-gradient(135deg, #fefce8 0%, #fef9c3 100%);
-      border: 1px solid #fde68a;
-      border-left: 4px solid #f59e0b;
-      border-radius: 0 12px 12px 0;
-      padding: 18px 24px;
-      margin-bottom: 32px;
-    }
-    .money-callout p {
-      font-size: 1rem;
+    .callout p strong {
+      font-style: normal;
       font-weight: 600;
-      color: #78350f;
-      line-height: 1.6;
+      color: var(--accent-dim);
     }
-    .money-callout p span { color: #b45309; }
 
+    /* ── PROBLEM GRID ── */
     .problem-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 16px;
-      margin-top: 8px;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-top: 28px;
     }
     .problem-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 22px 20px;
+      background: var(--paper);
+      padding: 28px 24px;
+      transition: background 0.12s;
     }
-    .problem-card .icon { font-size: 1.5rem; margin-bottom: 10px; }
-    .problem-card h3 { font-size: 0.92rem; font-weight: 700; margin-bottom: 6px; color: var(--text); }
-    .problem-card p { font-size: 0.875rem; color: var(--muted); line-height: 1.6; }
+    .problem-card:hover { background: var(--paper-dark); }
+    .problem-icon {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      color: var(--muted-light);
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .problem-icon::before {
+      content: '';
+      display: inline-block;
+      width: 12px; height: 1px;
+      background: var(--muted-light);
+    }
+    .problem-card h3 {
+      font-family: var(--serif);
+      font-size: 1.02rem;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+    .problem-card p {
+      font-size: 0.855rem;
+      color: var(--muted);
+      line-height: 1.75;
+      font-weight: 300;
+    }
 
-    /* SOLUTION */
-    .solution-block {
-      background: var(--accent-light);
-      border-left: 4px solid var(--accent);
-      border-radius: 0 12px 12px 0;
-      padding: 24px 28px;
-      margin-bottom: 20px;
-    }
-    .solution-block p { color: #1e40af; font-size: 0.95rem; line-height: 1.75; }
+    /* ── SOLUTION LIST ── */
     .solution-list {
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      margin-top: 20px;
+      gap: 0;
+      margin-top: 28px;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      overflow: hidden;
     }
     .solution-list li {
       display: flex;
       align-items: flex-start;
-      gap: 12px;
-      font-size: 0.95rem;
-      color: var(--text);
+      gap: 18px;
+      padding: 17px 24px;
+      border-bottom: 1px solid var(--border);
+      background: var(--white);
+      font-size: 0.93rem;
+      color: var(--ink);
+      font-weight: 300;
+      transition: background 0.12s;
     }
-    .solution-list li .check {
-      width: 20px; height: 20px; min-width: 20px;
-      background: var(--accent);
-      color: #fff;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.65rem;
-      margin-top: 2px;
-    }
-    .solution-note {
-      margin-top: 20px;
-      background: #f0f9ff;
-      border: 1px solid #93c5fd;
-      border-radius: 10px;
-      padding: 14px 18px;
-      font-size: 0.88rem;
-      color: #1e40af;
-      line-height: 1.65;
+    .solution-list li:last-child { border-bottom: none; }
+    .solution-list li:hover { background: var(--paper-dark); }
+    .sol-arr {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--muted);
+      margin-top: 3px;
+      flex-shrink: 0;
     }
 
-    /* STEPS */
-    .steps {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-      position: relative;
-    }
-    .steps::before {
-      content: '';
-      position: absolute;
-      left: 19px; top: 24px; bottom: 24px;
-      width: 2px;
-      background: linear-gradient(to bottom, var(--accent), #93c5fd);
-      border-radius: 2px;
-    }
+    /* ── STEPS ── */
+    .steps { display: flex; flex-direction: column; gap: 0; margin-top: 28px; }
     .step {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: 0;
+      border: 1px solid var(--border);
+      border-bottom: none;
+      background: var(--white);
+      transition: background 0.12s;
+    }
+    .step:first-child { border-radius: 3px 3px 0 0; }
+    .step:last-child { border-bottom: 1px solid var(--border); border-radius: 0 0 3px 3px; }
+    .step:hover { background: var(--paper); }
+    .step-num-col {
+      background: var(--paper-dark);
+      border-right: 1px solid var(--border);
       display: flex;
-      gap: 20px;
       align-items: flex-start;
-      padding: 20px 0;
-      position: relative;
+      justify-content: center;
+      padding: 24px 0 0;
     }
     .step-num {
-      width: 40px; height: 40px; min-width: 40px;
-      background: var(--accent);
-      color: #fff;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.8rem;
-      font-weight: 800;
-      position: relative;
-      z-index: 2;
-      box-shadow: 0 0 0 4px #fff;
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      color: var(--muted-light);
+      writing-mode: vertical-rl;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
     }
-    .step-body {
-      background: var(--step-bg);
-      border: 1px solid var(--step-border);
-      border-radius: 10px;
-      padding: 16px 20px;
-      flex: 1;
+    .step-content { padding: 24px 28px; }
+    .step-content h3 {
+      font-family: var(--serif);
+      font-size: 0.98rem;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 8px;
+      line-height: 1.3;
     }
-    .step-body h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 5px; color: var(--text); }
-    .step-body p { font-size: 0.875rem; color: var(--muted); line-height: 1.6; }
-    .step-body code {
+    .step-content p {
+      font-size: 0.855rem;
+      color: var(--muted);
+      line-height: 1.75;
+      font-weight: 300;
+      margin-bottom: 10px;
+    }
+    .step-code {
       display: inline-block;
-      background: #dbeafe;
-      color: #1d4ed8;
-      font-size: 0.78rem;
-      font-family: 'Courier New', monospace;
-      padding: 2px 7px;
-      border-radius: 4px;
-      margin-top: 6px;
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--ink);
+      background: var(--paper-dark);
+      border: 1px solid var(--border-dark);
+      padding: 3px 10px;
+      border-radius: 2px;
+      margin-top: 2px;
     }
     .step-img-wrap {
-      margin: 12px 0 10px;
-      border-radius: 8px;
+      margin: 14px 0 10px;
+      border: 1px solid var(--border);
+      border-radius: 2px;
       overflow: hidden;
-      border: 1px solid var(--step-border);
-      width: 100%;
+      background: var(--paper-dark);
     }
     .step-img-wrap img {
       width: 100%;
       display: block;
-      border-radius: 7px;
-      transition: transform 0.2s ease;
+      cursor: zoom-in;
+      transition: opacity 0.15s;
     }
-    .step-img-wrap img:hover { transform: scale(1.02); }
+    .step-img-wrap img:hover { opacity: 0.88; }
     .step-img-placeholder {
       display: none;
       align-items: center;
-      gap: 10px;
-      padding: 14px 16px;
-      background: linear-gradient(135deg, #e0e7ff 0%, #dbeafe 100%);
-      border-radius: 7px;
+      padding: 14px;
     }
-    .step-img-placeholder .ph-icon { font-size: 1.4rem; opacity: 0.6; }
     .step-img-placeholder span {
-      font-size: 0.78rem;
-      color: #5472a8;
-      font-family: 'Courier New', monospace;
-      font-weight: 500;
+      font-family: var(--mono);
+      font-size: 0.66rem;
+      color: var(--muted);
     }
 
-    /* VISUALS */
+    /* ── VISUALS ── */
     .visuals-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-      gap: 28px;
-      margin-top: 8px;
-    }
-    .visual-card {
-      background: var(--card);
+      gap: 1px;
+      background: var(--border);
       border: 1px solid var(--border);
-      border-radius: 14px;
+      border-radius: 3px;
       overflow: hidden;
+      margin-top: 28px;
     }
-    .visual-card .img-wrap {
-      background: linear-gradient(135deg, #e0e7ff 0%, #dbeafe 100%);
+    .visual-card { background: var(--white); }
+    .visual-img-wrap {
+      background: var(--paper-mid);
+      height: 210px;
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 200px;
-      position: relative;
       overflow: hidden;
+      border-bottom: 1px solid var(--border);
     }
-    .visual-card img {
+    .visual-img-wrap img {
       max-width: 100%;
       max-height: 100%;
       object-fit: contain;
       display: block;
+      cursor: zoom-in;
+      transition: transform 0.18s;
     }
+    .visual-img-wrap img:hover { transform: scale(1.03); }
     .img-placeholder {
-      display: flex;
+      display: none;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-      color: #6d8ac7;
-      font-size: 0.82rem;
-      font-weight: 500;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 0.68rem;
       text-align: center;
       padding: 20px;
-      height: 200px;
+      height: 210px;
     }
-    .img-placeholder .ph-icon { font-size: 2.2rem; opacity: 0.6; }
-    .img-placeholder span { font-size: 0.8rem; color: #7c9fd4; }
-    .visual-card .caption { padding: 14px 18px; border-top: 1px solid var(--border); }
-    .visual-card .caption strong {
+    .visual-caption { padding: 18px 22px; }
+    .visual-caption strong {
       display: block;
-      font-size: 0.88rem;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 3px;
+      font-family: var(--serif);
+      font-size: 0.9rem;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 5px;
     }
-    .visual-card .caption p { font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
+    .visual-caption p {
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.65;
+      font-weight: 300;
+    }
 
-    .clickable-img { transition: transform 0.2s ease; cursor: zoom-in; }
-    .clickable-img:hover { transform: scale(1.02); }
-
-    /* TECH */
+    /* ── TECH GRID ── */
     .tech-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 16px;
-      margin-top: 8px;
+      grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-top: 28px;
     }
     .tech-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 20px;
+      background: var(--paper);
+      padding: 24px 22px;
+      transition: background 0.12s;
     }
-    .tech-card .t-icon { font-size: 1.3rem; margin-bottom: 8px; }
-    .tech-card h3 { font-size: 0.88rem; font-weight: 700; margin-bottom: 6px; color: var(--text); }
-    .tech-card p { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
-
-    .failure-note {
-      margin-top: 18px;
-      background: #fefce8;
-      border: 1px solid #fde68a;
-      border-radius: 10px;
-      padding: 14px 18px;
-      font-size: 0.85rem;
-      color: #78350f;
-      line-height: 1.6;
+    .tech-card:hover { background: var(--paper-dark); }
+    .tech-label {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      color: var(--muted-light);
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
     }
-    .failure-note strong { color: #92400e; }
+    .tech-card h3 {
+      font-family: var(--serif);
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .tech-card p {
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.68;
+      font-weight: 300;
+    }
 
-    /* JSON */
+    .edge-note {
+      margin-top: 20px;
+      border: 1px solid var(--border-dark);
+      border-left: 2px solid var(--muted);
+      padding: 16px 22px;
+      border-radius: 0 3px 3px 0;
+      background: var(--paper-dark);
+    }
+    .edge-note p {
+      font-family: var(--mono);
+      font-size: 0.73rem;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+    .edge-note p strong { color: var(--ink); }
+
+    /* ── JSON ── */
     .json-block {
-      background: #0f172a;
-      color: #94a3b8;
-      border-radius: 10px;
-      padding: 20px 22px;
-      font-family: 'Courier New', monospace;
-      font-size: 0.82rem;
-      line-height: 1.8;
+      background: var(--code-bg);
+      border: 1px solid #1e1b16;
+      border-radius: 3px;
+      padding: 24px 28px;
+      font-family: var(--mono);
+      font-size: 0.77rem;
+      line-height: 1.95;
       margin-top: 24px;
       overflow-x: auto;
     }
     .json-block .key { color: #7dd3fc; }
-    .json-block .val { color: #86efac; }
-    .json-block .str { color: #fca5a5; }
-    .json-block .comment { color: #4b5563; }
+    .json-block .str { color: #c8b898; }
+    .json-block .comment { color: #4a4840; font-style: italic; }
 
-    /* RESULTS */
-    .results-grid {
+    /* ── WHAT I LEARNED (new section) ── */
+    .learned-section { background: var(--paper-dark); }
+    .learned-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 16px;
-      margin-top: 8px;
-    }
-    .result-card {
-      background: var(--result-bg);
-      border: 1px solid var(--result-border);
-      border-radius: 12px;
-      padding: 22px 18px;
-      text-align: center;
-    }
-    .result-card .r-icon { font-size: 1.8rem; margin-bottom: 10px; }
-    .result-card h3 { font-size: 0.9rem; font-weight: 700; color: var(--result-text); margin-bottom: 5px; }
-    .result-card p { font-size: 0.8rem; color: #15803d; line-height: 1.5; }
-    .result-card .r-stat {
-      font-size: 1.6rem;
-      font-weight: 800;
-      color: #166534;
-      display: block;
-      margin-bottom: 4px;
-      letter-spacing: -0.5px;
-    }
-
-    .outcome-example {
-      display: flex;
-      align-items: flex-start;
-      gap: 16px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      overflow: hidden;
       margin-top: 28px;
-      background: #fff;
-      border: 1px solid var(--result-border);
-      border-left: 4px solid #22c55e;
-      border-radius: 0 12px 12px 0;
-      padding: 20px 24px;
     }
-    .outcome-icon { font-size: 1.5rem; flex-shrink: 0; margin-top: 2px; }
-    .outcome-label {
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: #16a34a;
-      margin-bottom: 6px;
+    .learned-card {
+      background: var(--paper-dark);
+      padding: 26px 24px;
     }
-    .outcome-text { font-size: 0.95rem; color: var(--text); line-height: 1.7; font-weight: 500; }
-
-    /* HIRE ME CTA */
-    .cta-section {
-      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
-      padding: 72px 0;
-      text-align: center;
-    }
-    .cta-section .container { max-width: 600px; }
-    .cta-label {
-      font-size: 0.72rem;
-      font-weight: 700;
+    .learned-num {
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      color: var(--muted-light);
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: #60a5fa;
+      margin-bottom: 14px;
+    }
+    .learned-card h3 {
+      font-family: var(--serif);
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+    .learned-card p {
+      font-size: 0.845rem;
+      color: var(--muted);
+      line-height: 1.75;
+      font-weight: 300;
+    }
+
+    /* ── RESULTS (dark) ── */
+    .results-section { background: var(--ink-soft); }
+    .results-section .section-marker { color: #4a4840; }
+    .results-section .section-marker::after { background: #3a3830; }
+    .results-section .section-title { color: var(--paper); }
+    .results-section .section-body { color: #8a8278; }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1px;
+      background: #181614;
+      border: 1px solid #181614;
+      border-radius: 3px;
+      overflow: hidden;
+      margin-top: 28px;
+    }
+    .result-card {
+      background: #090807;
+      padding: 28px 22px;
+    }
+    .r-label {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      color: #6a6460;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      display: block;
+    }
+    .result-card h3 {
+      font-family: var(--serif);
+      font-size: 0.97rem;
+      font-weight: 400;
+      color: var(--paper);
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+    .result-card p {
+      font-size: 0.78rem;
+      color: #6a6460;
+      line-height: 1.68;
+      font-weight: 300;
+    }
+
+    .outcome-block {
+      margin-top: 26px;
+      border: 1px solid #1e1b16;
+      border-left: 3px solid var(--accent);
+      padding: 24px 28px;
+      border-radius: 0 3px 3px 0;
+      background: #060504;
+    }
+    .outcome-label {
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      color: #6a6460;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
       margin-bottom: 12px;
     }
-    .cta-section h2 {
-      font-size: clamp(1.5rem, 3.5vw, 2rem);
-      font-weight: 800;
-      color: #fff;
-      margin-bottom: 14px;
-      letter-spacing: -0.3px;
+    .outcome-text {
+      font-family: var(--serif);
+      font-size: 0.98rem;
+      color: #8a8278;
+      line-height: 1.85;
+      font-style: italic;
+      font-weight: 300;
     }
-    .cta-section p {
-      color: #94a3b8;
+
+    /* ── HIRE ME ── */
+    .hire-section {
+      background: var(--paper-dark);
+      padding: 92px 0;
+      border-top: 1px solid var(--border);
+    }
+    .hire-inner { max-width: 580px; }
+
+    .hire-avail {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--mono);
+      font-size: 0.63rem;
+      color: #2d6438;
+      border: 1px solid #9abea0;
+      background: #eef6ef;
+      padding: 5px 14px;
+      border-radius: 2px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 26px;
+    }
+    .hire-avail::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #3a8048;
+      animation: pulse 2.2s infinite;
+      flex-shrink: 0;
+    }
+
+    .hire-section .section-title { margin-bottom: 16px; }
+
+    .hire-body {
       font-size: 0.97rem;
-      margin-bottom: 20px;
-      line-height: 1.7;
+      color: var(--muted);
+      line-height: 1.88;
+      font-weight: 300;
+      margin-bottom: 32px;
+      max-width: 520px;
     }
-    .cta-availability {
-      display: inline-block;
-      background: rgba(34, 197, 94, 0.15);
-      border: 1px solid rgba(34, 197, 94, 0.3);
-      color: #86efac;
-      font-size: 0.82rem;
-      font-weight: 600;
-      padding: 6px 16px;
-      border-radius: 20px;
-      margin-bottom: 28px;
-    }
-    .cta-buttons {
+
+    .hire-actions {
       display: flex;
       gap: 12px;
-      justify-content: center;
       flex-wrap: wrap;
+      align-items: center;
     }
+
     .btn-primary {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
       background: var(--accent);
       color: #fff;
-      padding: 13px 26px;
-      border-radius: 8px;
-      font-size: 0.92rem;
-      font-weight: 600;
+      padding: 13px 28px;
+      border-radius: 2px;
       text-decoration: none;
-      border: none;
-      cursor: pointer;
-      transition: background 0.2s;
+      border: 1px solid var(--accent);
+      transition: background 0.15s, border-color 0.15s;
       display: inline-block;
     }
-    .btn-primary:hover { background: #1d4ed8; }
-    .btn-outline {
-      background: transparent;
-      color: #cbd5e1;
-      padding: 13px 26px;
-      border-radius: 8px;
-      font-size: 0.92rem;
-      font-weight: 600;
-      text-decoration: none;
-      border: 1px solid rgba(255,255,255,0.2);
-      cursor: pointer;
-      transition: border-color 0.2s, color 0.2s;
-      display: inline-block;
-    }
-    .btn-outline:hover { border-color: rgba(255,255,255,0.5); color: #fff; }
-    .cta-contact {
-      margin-top: 18px;
-      font-size: 0.8rem;
-      color: #94a3b8;
-    }
-    .cta-contact a { color: #60a5fa; text-decoration: none; }
-    .cta-contact a:hover { text-decoration: underline; }
+    .btn-primary:hover { background: var(--accent-dim); border-color: var(--accent-dim); }
 
-    /* FOOTER */
-    footer {
-      background: #f9fafb;
-      border-top: 1px solid var(--border);
-      padding: 24px 0;
-      text-align: center;
-      font-size: 0.8rem;
+    .btn-outline {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      background: transparent;
+      color: var(--muted);
+      padding: 13px 24px;
+      border-radius: 2px;
+      text-decoration: none;
+      border: 1px solid var(--border-dark);
+      transition: border-color 0.15s, color 0.15s;
+      display: inline-block;
+    }
+    .btn-outline:hover { border-color: var(--ink); color: var(--ink); }
+
+    .hire-email {
+      margin-top: 20px;
+      font-family: var(--mono);
+      font-size: 0.67rem;
       color: var(--muted);
     }
+    .hire-email a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+    .hire-email a:hover { color: var(--accent); }
 
-    @media (max-width: 600px) {
-      section { padding: 48px 0; }
-      .hero { padding: 56px 0 52px; }
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ink);
+      padding: 24px 0;
+      border-top: 1px solid #181614;
+    }
+    footer .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    footer p {
+      font-family: var(--mono);
+      font-size: 0.61rem;
+      color: #6a6460;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── MODAL ── */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 9998;
+      inset: 0;
+      background: rgba(5,4,3,0.97);
+      align-items: center;
+      justify-content: center;
+    }
+    .modal.show { display: flex; }
+    .modal-img {
+      max-width: 92vw;
+      max-height: 88vh;
+      border-radius: 2px;
+      cursor: zoom-out;
+    }
+    .modal-close {
+      position: absolute;
+      top: 22px; right: 30px;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: #2a2824;
+      cursor: pointer;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      transition: color 0.12s;
+    }
+    .modal-close:hover { color: var(--paper); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 660px) {
+      .hero-layout { grid-template-columns: 1fr; }
+      .hero-profile-col { flex-direction: row; align-items: center; gap: 18px; }
+      .context-banner-inner { grid-template-columns: 1fr; }
+      .step { grid-template-columns: 1fr; }
+      .step-num-col { display: none; }
       .visuals-grid { grid-template-columns: 1fr; }
-      .steps::before { left: 19px; }
-      .hero-title-row { flex-direction: column; text-align: center; }
-      .hero-title-row h1 { text-align: center; }
+      section { padding: 56px 0; }
+      .hero { padding: 64px 0 56px; }
+      .container { padding: 0 22px; }
+      .topbar-right .topbar-avail { display: none; }
     }
   </style>
 </head>
 <body>
 
-  <!-- TOP NAV -->
-  <div class="topbar">
+  <!-- TOPBAR -->
+  <nav class="topbar">
     <div class="topbar-inner">
-      <span class="topbar-logo">&#9679; GHL Workflow Case Study</span>
-      <span class="topbar-tag">GoHighLevel · Automation · CRM</span>
+      <span class="topbar-logo">
+        <span class="dot">●</span> GHL Workflow — Case Study
+      </span>
+      <div class="topbar-right">
+        <span class="topbar-tag">GoHighLevel · CRM · Automation</span>
+        <span class="topbar-avail">
+          <span class="topbar-avail-dot"></span>
+          Available for hire
+        </span>
+      </div>
     </div>
-  </div>
+  </nav>
 
   <!-- HERO -->
   <header class="hero">
     <div class="container">
-      <div class="hero-badge">Case Study — Real Workflow Build</div>
-      <div class="hero-title-row">
-        <h1>How I Built an Automated System to <span>Structure CRM Contact Data</span> Inside GoHighLevel</h1>
-        <div class="hero-profile">
-          <img
-            src="face.png"
-            alt="Ciddy Macapinlac"
-            class="hero-profile-img"
-            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-          />
-          <div class="hero-profile-fallback" style="display:none;">CM</div>
-          <p class="hero-profile-name">Ciddy Macapinlac</p>
-          <p class="hero-profile-role">GHL Automation & CRM Support</p>
+      <p class="hero-eyebrow">Workflow Build — Portfolio Case Study</p>
+      <div class="hero-layout">
+        <div>
+          <h1>Building a System to <em>Auto-Structure CRM Contact Data</em> Inside GoHighLevel</h1>
+
+          <div class="hero-context-block">
+            <p>
+              <strong>Context —</strong> Built during an internship as a learning and portfolio exercise inside a GHL training environment. The workflow logic, structure, and edge-case handling are real. This documents what I built, why each step exists, and what it would solve in a live system.
+            </p>
+          </div>
+
+          <div class="hero-meta">
+            <span class="meta-key">Tools</span>&nbsp;&nbsp;<span class="meta-val">— GoHighLevel · Webhook / API · Conditional Logic</span><br />
+            <span class="meta-key">Type</span>&nbsp;&nbsp;&nbsp;<span class="meta-val">— Workflow Automation · CRM Contact Management</span><br />
+            <span class="meta-key">Context</span>&nbsp;<span class="meta-val">— Internship training environment · GHL account</span>
+          </div>
+        </div>
+
+        <div class="hero-profile-col">
+          <div class="hero-img-wrap">
+            <img src="face.png" alt="Ciddy Macapinlac"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+            <div class="hero-img-fallback">CM</div>
+          </div>
+          <p class="hero-name">Ciddy Macapinlac</p>
+          <p class="hero-role">GHL & CRM Support</p>
         </div>
       </div>
-
-      <div class="hero-stats">
-        <div class="hero-stat"><span class="hstat-num">2–4 hrs</span><span class="hstat-label">Saved per day</span></div>
-        <div class="hero-stat-div"></div>
-        <div class="hero-stat"><span class="hstat-num">200–300+</span><span class="hstat-label">Contacts auto-created</span></div>
-        <div class="hero-stat-div"></div>
-        <div class="hero-stat"><span class="hstat-num">0</span><span class="hstat-label">Duplicate records</span></div>
-      </div>
-      <p class="hero-stats-context">From a real workflow built and tested in an operational GHL environment.</p>
-
-      <div class="hero-tools">
-        <span class="tool-tag">&#128279; GoHighLevel</span>
-        <span class="tool-tag">&#128296; API / Data Pipeline</span>
-        <span class="tool-tag">&#9881;&#65039; Conditional Logic</span>
-        <span class="tool-tag">&#128203; Workflow Automation</span>
-      </div>
-
-      <p class="hero-subtitle">This case study documents how the system works, why it was built, and what it produces.</p>
     </div>
   </header>
 
-  <!-- QUICK SKIM -->
+  <!-- CONTEXT BANNER (replaces fabricated stats) -->
+  <div class="context-banner">
+    <div class="context-banner-inner">
+      <div class="context-cell">
+        <div class="context-cell-label">What this is</div>
+        <div class="context-cell-value">A functional GHL workflow built to learn and demonstrate CRM automation — <em>documented as a portfolio piece</em></div>
+      </div>
+      <div class="context-cell">
+        <div class="context-cell-label">What it proves</div>
+        <div class="context-cell-value">Understanding of triggers, conditional logic, API calls, and edge cases — <em>not just button-clicking</em></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAGS -->
+  <div class="tags-row">
+    <div class="tags-inner">
+      <span class="tags-label">Skills —</span>
+      <span class="tag hi">GoHighLevel</span>
+      <span class="tag hi">API / Webhook</span>
+      <span class="tag hi">Conditional Logic</span>
+      <span class="tag">CRM Pipeline</span>
+      <span class="tag">Contact Management</span>
+      <span class="tag">Workflow Automation</span>
+    </div>
+  </div>
+
+  <!-- OVERVIEW -->
   <section class="skim-section">
     <div class="container">
-      <p class="section-label">In Short</p>
-      <h2 class="section-title">What This System Does</h2>
+      <p class="section-marker">Overview</p>
+      <h2 class="section-title" style="color:var(--paper);">What This System Does</h2>
       <div class="skim-grid">
-        <div class="skim-item"><span class="skim-dot">●</span><span>Extracts related contacts from unstructured custom fields</span></div>
-        <div class="skim-item"><span class="skim-dot">●</span><span>Creates or updates records via API — no duplicates</span></div>
-        <div class="skim-item"><span class="skim-dot">●</span><span>Links each new contact back to the original lead</span></div>
-        <div class="skim-item"><span class="skim-dot">●</span><span>Eliminates manual data entry entirely</span></div>
+        <div class="skim-item"><span class="skim-num">01</span><span class="skim-text">Extracts related contacts from unstructured custom fields</span></div>
+        <div class="skim-item"><span class="skim-num">02</span><span class="skim-text">Creates or updates records via API — no duplicates</span></div>
+        <div class="skim-item"><span class="skim-num">03</span><span class="skim-text">Links each new contact back to the original lead</span></div>
+        <div class="skim-item"><span class="skim-num">04</span><span class="skim-text">Eliminates manual data entry entirely</span></div>
       </div>
     </div>
   </section>
@@ -777,133 +1120,113 @@
   <!-- THE PROBLEM -->
   <section>
     <div class="container">
-      <p class="section-label">The Problem</p>
-      <h2 class="section-title">Most CRM Data Breaks Before It Becomes Useful</h2>
-      <div class="money-callout">
-        <p>&#128161; If a team processes <span>100 leads a month</span> and each has <span>2–3 related contacts</span>, that's <span>200–300 records</span> that would normally require manual entry — creating delays, errors, and disorganized pipelines.</p>
+      <p class="section-marker">The Problem</p>
+      <h2 class="section-title">Most CRM Data Breaks Before It Becomes <em>Useful</em></h2>
+      <p class="section-body">Many systems capture leads — but the data inside them is often incomplete, unstructured, or difficult to act on. This workflow was designed to address that directly.</p>
+      <div class="callout">
+        <p>If a team processes <strong>100 leads a month</strong> and each has 2–3 related contacts, that's <strong>200–300 records</strong> that would normally require manual entry — creating delays, errors, and pipeline disorganization.</p>
       </div>
-      <p class="section-intro">
-        Many systems capture leads — but the data inside them is often incomplete, unstructured, or difficult to use for follow-up and outreach. This workflow was built to solve that directly.
-      </p>
       <div class="problem-grid">
         <div class="problem-card">
-          <div class="icon">&#128274;</div>
+          <div class="problem-icon">Issue 01</div>
           <h3>Data Stays Trapped in Fields</h3>
-          <p>Related contacts are stored inside custom fields instead of being usable, actionable records that can be tracked and followed up on.</p>
+          <p>Related contacts stored inside custom fields instead of being usable, actionable records that can be tracked and followed up on.</p>
         </div>
         <div class="problem-card">
-          <div class="icon">&#9201;</div>
+          <div class="problem-icon">Issue 02</div>
           <h3>Manual Entry Slows Everything Down</h3>
-          <p>Teams manually create contacts, copy details, and organize records — leading to delays, inconsistencies, and missed follow-ups.</p>
+          <p>Teams copy details and create records manually — leading to delays, inconsistencies, and missed follow-ups at scale.</p>
         </div>
         <div class="problem-card">
-          <div class="icon">&#128226;</div>
+          <div class="problem-icon">Issue 03</div>
           <h3>CRM Becomes Disorganized Over Time</h3>
-          <p>Without structure, pipelines, tagging, and outreach become harder to manage and less reliable the more data you add.</p>
+          <p>Without structure, pipelines and outreach become harder to manage the more data you add. Automation prevents that drift.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- THE SOLUTION -->
+  <!-- SOLUTION -->
   <section>
     <div class="container">
-      <p class="section-label">The Solution</p>
-      <h2 class="section-title">A Data Pipeline That Structures Your CRM Automatically</h2>
-      <div class="solution-block">
-        <p>
-          Built inside GoHighLevel, this system extracts related contact data from unstructured fields and pushes it through an API-based pipeline — creating clean, validated, linked records without manual steps.
-        </p>
-      </div>
+      <p class="section-marker">The Solution</p>
+      <h2 class="section-title">An Automated Pipeline That <em>Structures the CRM</em></h2>
+      <p class="section-body">Built inside GoHighLevel — this workflow extracts related contact data from unstructured fields and pushes it through an API-based pipeline, creating clean, validated, linked records without manual steps.</p>
       <ul class="solution-list">
-        <li><span class="check">&#10003;</span><span>Extracts related contact data from custom fields in the source record</span></li>
-        <li><span class="check">&#10003;</span><span>Validates each contact before processing to prevent empty or broken records</span></li>
-        <li><span class="check">&#10003;</span><span>Creates or updates contacts using API upsert logic — no duplicates created</span></li>
-        <li><span class="check">&#10003;</span><span>Links each new contact back to the original lead record for full relationship visibility</span></li>
-        <li><span class="check">&#10003;</span><span>Builds a clean, scalable CRM structure automatically — no manual steps required</span></li>
+        <li><span class="sol-arr">→</span><span>Extracts related contact data from custom fields in the source record</span></li>
+        <li><span class="sol-arr">→</span><span>Validates each contact before processing to prevent empty or broken records</span></li>
+        <li><span class="sol-arr">→</span><span>Creates or updates contacts using API upsert logic — no duplicates created</span></li>
+        <li><span class="sol-arr">→</span><span>Links each new contact back to the original lead record for full relationship visibility</span></li>
+        <li><span class="sol-arr">→</span><span>Produces a clean, structured CRM automatically — no manual steps required</span></li>
       </ul>
-      <div class="solution-note">
-        &#128161; <strong>Why this matters for follow-up:</strong> Once contacts are structured and linked, building follow-up sequences across multiple related contacts becomes straightforward — instead of relying on a single lead entry point.
-      </div>
     </div>
   </section>
 
   <!-- HOW IT WORKS -->
   <section>
     <div class="container">
-      <p class="section-label">How It Works</p>
-      <h2 class="section-title">Step-by-Step Workflow Breakdown</h2>
-      <p class="section-intro">
-        The pipeline follows a sequential processing architecture — each contact is validated before being created, ensuring only clean, complete records enter the CRM.
-      </p>
+      <p class="section-marker">How It Works</p>
+      <h2 class="section-title">Step-by-Step <em>Workflow Breakdown</em></h2>
+      <p class="section-body">The pipeline follows a sequential processing architecture — each contact is validated before being created, ensuring only clean, complete records enter the CRM.</p>
       <div class="steps">
 
         <div class="step">
-          <div class="step-num">1</div>
-          <div class="step-body">
-            <h3>Trigger: Contact Created or Updated</h3>
+          <div class="step-num-col"><span class="step-num">Step 01</span></div>
+          <div class="step-content">
+            <h3>Trigger — Contact Created or Updated</h3>
             <div class="step-img-wrap">
-              <img src="image_1.png" alt="Workflow trigger screenshot" loading="lazy" class="clickable-img"
+              <img src="image_1.png" alt="Workflow trigger"
                 onerror="this.style.display='none'; this.parentNode.querySelector('.step-img-placeholder').style.display='flex';" />
-              <div class="step-img-placeholder">
-                <span class="ph-icon">&#128203;</span>
-                <span>workflow-overview.png — trigger setup</span>
-              </div>
+              <div class="step-img-placeholder"><span>workflow-overview.png</span></div>
             </div>
-            <p>Triggers when a new lead is added or an existing record is updated with related contact data in its custom fields.</p>
-            <code>Trigger: Contact Created / Field Updated</code>
+            <p>Fires when a new lead is added or an existing record is updated with related contact data in its custom fields.</p>
+            <span class="step-code">Trigger: Contact Created / Field Updated</span>
           </div>
         </div>
 
         <div class="step">
-          <div class="step-num">2</div>
-          <div class="step-body">
-            <h3>Conditional Check: Validate Contact Fields</h3>
-            <p>Checks whether each related contact has a valid phone or email before processing. Empty or incomplete entries are skipped automatically.</p>
-            <code>IF phone IS EMPTY AND email IS EMPTY → skip record</code>
+          <div class="step-num-col"><span class="step-num">Step 02</span></div>
+          <div class="step-content">
+            <h3>Conditional Check — Validate Contact Fields</h3>
+            <p>Checks whether each related contact has a valid phone or email before processing. Empty entries are skipped automatically — no broken records enter the CRM.</p>
+            <span class="step-code">IF phone IS EMPTY AND email IS EMPTY → skip record</span>
           </div>
         </div>
 
         <div class="step">
-          <div class="step-num">3</div>
-          <div class="step-body">
-            <h3>API Upsert: Create or Update the Contact Record</h3>
+          <div class="step-num-col"><span class="step-num">Step 03</span></div>
+          <div class="step-content">
+            <h3>API Upsert — Create or Update the Contact Record</h3>
             <div class="step-img-wrap">
-              <img src="webhook.png" alt="Webhook / API configuration screenshot" loading="lazy" class="clickable-img"
+              <img src="webhook.png" alt="Webhook / API configuration"
                 onerror="this.style.display='none'; this.parentNode.querySelector('.step-img-placeholder').style.display='flex';" />
-              <div class="step-img-placeholder">
-                <span class="ph-icon">&#128279;</span>
-                <span>webhook-config.png — endpoint &amp; payload mapping</span>
-              </div>
+              <div class="step-img-placeholder"><span>webhook-config.png</span></div>
             </div>
-            <p>A webhook fires with the related contact's name, phone, email, and relationship type — triggering an API upsert that creates or updates a record without producing duplicates.</p>
-            <code>POST → GHL API / upsert endpoint</code>
+            <p>A webhook fires with the related contact's data — triggering an API upsert that creates or updates a record without producing duplicates.</p>
+            <span class="step-code">POST → GHL API / upsert endpoint</span>
           </div>
         </div>
 
         <div class="step">
-          <div class="step-num">4</div>
-          <div class="step-body">
+          <div class="step-num-col"><span class="step-num">Step 04</span></div>
+          <div class="step-content">
             <h3>Link Back to Parent Record</h3>
             <div class="step-img-wrap">
-              <img src="escalation.png" alt="Contact linking flow screenshot" loading="lazy" class="clickable-img"
+              <img src="escalation.png" alt="Contact linking flow"
                 onerror="this.style.display='none'; this.parentNode.querySelector('.step-img-placeholder').style.display='flex';" />
-              <div class="step-img-placeholder">
-                <span class="ph-icon">&#128200;</span>
-                <span>linking.png — parent contact ID mapping</span>
-              </div>
+              <div class="step-img-placeholder"><span>linking-flow.png</span></div>
             </div>
-            <p>Each newly created contact is linked back to the original lead using a custom parent contact ID field — keeping all related records connected and visible in one place.</p>
-            <code>Set: parent_contact_id = {{contact.id}}</code>
+            <p>Each newly created contact is linked back to the original lead using a custom parent contact ID field — keeping all related records connected inside GHL.</p>
+            <span class="step-code">Set: parent_contact_id = {{contact.id}}</span>
           </div>
         </div>
 
         <div class="step">
-          <div class="step-num">5</div>
-          <div class="step-body">
-            <h3>Completion: Clean CRM Structure Confirmed</h3>
-            <p>All related contacts are now independent, linked records inside GHL. The pipeline is ready for follow-up, tagging, or any downstream automation.</p>
-            <code>Result: Structured contacts → pipeline ready</code>
+          <div class="step-num-col"><span class="step-num">Step 05</span></div>
+          <div class="step-content">
+            <h3>Completion — Structured CRM Ready</h3>
+            <p>All related contacts are now independent, linked records. The pipeline is ready for follow-up sequences, tagging, or any downstream automation.</p>
+            <span class="step-code">Result: Structured contacts → pipeline ready</span>
           </div>
         </div>
 
@@ -911,125 +1234,102 @@
     </div>
   </section>
 
-  <!-- ACTUAL SCREENSHOTS -->
+  <!-- SCREENSHOTS -->
   <section>
     <div class="container">
-      <p class="section-label">Actual System Screenshots</p>
-      <h2 class="section-title">Live Workflow Breakdown</h2>
-      <p class="section-intro">From the actual GoHighLevel build — workflow structure, conditional logic, API configuration, and contact linking flow.</p>
+      <p class="section-marker">System Screenshots</p>
+      <h2 class="section-title">The Actual <em>GHL Build</em></h2>
+      <p class="section-body">Workflow structure, conditional logic, API configuration, and contact linking — from the actual build inside GoHighLevel.</p>
       <div class="visuals-grid">
-
         <div class="visual-card">
-          <div class="img-wrap">
-            <img src="image_1.png" alt="Full workflow overview" loading="lazy" class="clickable-img"
+          <div class="visual-img-wrap">
+            <img src="image_1.png" alt="Workflow overview"
               onerror="this.style.display='none'; this.parentNode.querySelector('.img-placeholder').style.display='flex';" />
-            <div class="img-placeholder" style="display:none;">
-              <div class="ph-icon">&#128203;</div>
-              <strong>workflow-overview.png</strong>
-              <span>Full workflow overview screenshot</span>
-            </div>
+            <div class="img-placeholder">workflow-overview.png</div>
           </div>
-          <div class="caption">
+          <div class="visual-caption">
             <strong>Workflow Overview</strong>
-            <p>The full automation map showing the trigger, validation branches, API actions, and linking steps.</p>
+            <p>Full automation map — trigger, validation branches, API actions, and linking steps.</p>
           </div>
         </div>
-
         <div class="visual-card">
-          <div class="img-wrap">
-            <img src="condition.png" alt="Condition logic" loading="lazy" class="clickable-img"
+          <div class="visual-img-wrap">
+            <img src="condition.png" alt="Condition logic"
               onerror="this.style.display='none'; this.parentNode.querySelector('.img-placeholder').style.display='flex';" />
-            <div class="img-placeholder" style="display:none;">
-              <div class="ph-icon">&#128268;</div>
-              <strong>condition-logic.png</strong>
-              <span>Conditional branching logic screenshot</span>
-            </div>
+            <div class="img-placeholder">condition-logic.png</div>
           </div>
-          <div class="caption">
+          <div class="visual-caption">
             <strong>Conditional Validation</strong>
-            <p>Branch conditions that check whether each related contact's fields are populated before record creation is triggered.</p>
+            <p>Branch conditions checking whether each contact's fields are populated before record creation triggers.</p>
           </div>
         </div>
-
         <div class="visual-card">
-          <div class="img-wrap">
-            <img src="webhook.png" alt="API / Webhook configuration" loading="lazy" class="clickable-img"
+          <div class="visual-img-wrap">
+            <img src="webhook.png" alt="API / Webhook"
               onerror="this.style.display='none'; this.parentNode.querySelector('.img-placeholder').style.display='flex';" />
-            <div class="img-placeholder" style="display:none;">
-              <div class="ph-icon">&#128279;</div>
-              <strong>webhook-config.png</strong>
-              <span>API configuration screenshot</span>
-            </div>
+            <div class="img-placeholder">webhook-config.png</div>
           </div>
-          <div class="caption">
+          <div class="visual-caption">
             <strong>API / Webhook Setup</strong>
-            <p>The webhook action inside GHL, including the endpoint URL and dynamically mapped JSON fields for each contact.</p>
+            <p>Endpoint URL and dynamically mapped JSON fields used to create or update each contact record.</p>
           </div>
         </div>
-
         <div class="visual-card">
-          <div class="img-wrap">
-            <img src="escalation.png" alt="Contact linking and structure" loading="lazy" class="clickable-img"
+          <div class="visual-img-wrap">
+            <img src="escalation.png" alt="Contact linking"
               onerror="this.style.display='none'; this.parentNode.querySelector('.img-placeholder').style.display='flex';" />
-            <div class="img-placeholder" style="display:none;">
-              <div class="ph-icon">&#128200;</div>
-              <strong>linking-flow.png</strong>
-              <span>Contact linking flow screenshot</span>
-            </div>
+            <div class="img-placeholder">linking-flow.png</div>
           </div>
-          <div class="caption">
-            <strong>Contact Linking (Relationship Structure)</strong>
-            <p>Each processed contact is linked back to the parent lead using a mapped ID field — creating a navigable relationship structure inside GHL.</p>
+          <div class="visual-caption">
+            <strong>Contact Linking</strong>
+            <p>Each processed contact linked back to the parent lead — navigable relationship structure inside GHL.</p>
           </div>
         </div>
-
       </div>
     </div>
   </section>
 
-  <!-- TECHNICAL IMPLEMENTATION -->
+  <!-- TECHNICAL -->
   <section>
     <div class="container">
-      <p class="section-label">Technical Implementation</p>
-      <h2 class="section-title">What's Under the Hood</h2>
-      <p class="section-intro">Native GHL features combined with API-based upsert logic to create a fully automated data pipeline. <strong>The system runs in the background — no manual steps once it's set up.</strong></p>
+      <p class="section-marker">Technical Implementation</p>
+      <h2 class="section-title">What's <em>Under the Hood</em></h2>
+      <p class="section-body">Native GHL features combined with API-based upsert logic to build a fully automated data pipeline. Once configured, the system runs without manual steps.</p>
       <div class="tech-grid">
         <div class="tech-card">
-          <div class="t-icon">&#127963;</div>
+          <div class="tech-label">Logic</div>
           <h3>Conditional Branching</h3>
-          <p>Each step uses GHL's IF/ELSE branch logic to validate whether contact fields are populated before attempting record creation.</p>
+          <p>GHL's IF/ELSE branch logic validates whether contact fields are populated before attempting record creation.</p>
         </div>
         <div class="tech-card">
-          <div class="t-icon">&#128260;</div>
+          <div class="tech-label">Flow</div>
           <h3>Sequential Workflow Logic</h3>
-          <p>Steps execute in order with built-in validation gates between them, ensuring only clean, complete data enters the CRM at each stage.</p>
+          <p>Steps execute in order with built-in validation gates, ensuring only clean, complete data enters the CRM.</p>
         </div>
         <div class="tech-card">
-          <div class="t-icon">&#128279;</div>
-          <h3>API Upsert Requests</h3>
-          <p>Each processed contact triggers a POST request to the GHL API, creating a new record or updating an existing one — without producing duplicates.</p>
+          <div class="tech-label">API</div>
+          <h3>Upsert Requests</h3>
+          <p>Each contact triggers a POST request to the GHL API — creating or updating a record without producing duplicates.</p>
         </div>
         <div class="tech-card">
-          <div class="t-icon">&#128101;</div>
+          <div class="tech-label">Data</div>
           <h3>Dynamic Field Mapping</h3>
-          <p>Name, phone, email, relationship type, and parent contact ID are all mapped dynamically from GHL custom fields into each API payload.</p>
+          <p>Name, phone, email, relationship type, and parent contact ID all mapped dynamically from GHL custom fields.</p>
         </div>
         <div class="tech-card">
-          <div class="t-icon">&#128196;</div>
+          <div class="tech-label">Structure</div>
           <h3>Standardized JSON Payload</h3>
-          <p>A consistent payload structure is sent for every related contact, keeping the receiving system reliable regardless of the data source.</p>
+          <p>A consistent payload structure is sent for every related contact, keeping the receiving system reliable.</p>
         </div>
         <div class="tech-card">
-          <div class="t-icon">&#128279;</div>
-          <h3>Parent Contact Linking</h3>
-          <p>Each new record is linked to the original lead using a custom parent contact ID field, maintaining full relationship visibility across the CRM.</p>
+          <div class="tech-label">Linking</div>
+          <h3>Parent Contact ID</h3>
+          <p>Each new record linked to the original lead via a custom parent ID field — full relationship visibility across the CRM.</p>
         </div>
       </div>
-
-      <div class="failure-note">
-        &#9888;&#65039; <strong>Edge case handled:</strong> If an API call fails mid-process, the workflow can be extended with retry logic or error-tagging steps that flag the record for manual review — ensuring no silent failures.
+      <div class="edge-note">
+        <p><strong>Edge case considered:</strong> If an API call fails mid-process, the workflow can be extended with retry logic or error-tagging steps that flag the record for manual review — no silent failures.</p>
       </div>
-
       <div class="json-block">
         <span class="comment">// Sample API Payload — Related Contact Processing Step</span><br />
         {<br />
@@ -1047,104 +1347,112 @@
     </div>
   </section>
 
-  <!-- RESULTS -->
-  <section>
+  <!-- WHAT I LEARNED — NEW SECTION -->
+  <section class="learned-section">
     <div class="container">
-      <p class="section-label">Results</p>
-      <h2 class="section-title">What This System Actually Delivers</h2>
-      <p class="section-intro">
-        Related contacts are automatically extracted, validated, and created as independent CRM records — linked back to the original lead. Built and tested inside a real operational GHL environment.
-      </p>
-      <div class="results-grid">
-        <div class="result-card">
-          <div class="r-icon">&#128683;</div>
-          <span class="r-stat">0 Manual</span>
-          <h3>Data Entry Required</h3>
-          <p>Related contacts are created automatically from source fields — no copy-pasting, no manual record creation.</p>
+      <p class="section-marker">What I Learned</p>
+      <h2 class="section-title">The <em>Real Takeaways</em> From Building This</h2>
+      <p class="section-body">Building this workflow taught me how automation behaves in practice — not just in theory. These are the specific things I now understand because I had to work through them.</p>
+      <div class="learned-grid">
+        <div class="learned-card">
+          <div class="learned-num">01</div>
+          <h3>Validation gates matter more than the happy path</h3>
+          <p>The most important logic in this workflow isn't the API call — it's the conditional check that prevents bad data from entering the CRM in the first place. Skipping validation creates silent problems downstream.</p>
         </div>
-        <div class="result-card">
-          <div class="r-icon">&#128257;</div>
-          <span class="r-stat">100%</span>
-          <h3>Record Coverage</h3>
-          <p>Every related contact in the source record is processed through the same validation and creation logic.</p>
+        <div class="learned-card">
+          <div class="learned-num">02</div>
+          <h3>Upsert logic prevents duplicate creep</h3>
+          <p>Without upsert, every re-trigger of the workflow would create a new contact record. Understanding when to create vs. update is a real operational concern — not just a technical detail.</p>
         </div>
-        <div class="result-card">
-          <div class="r-icon">&#128200;</div>
-          <span class="r-stat">Linked</span>
-          <h3>Contacts, Not Loose Data</h3>
-          <p>Each new record is connected back to its parent lead, giving you a structured relationship map inside GHL.</p>
+        <div class="learned-card">
+          <div class="learned-num">03</div>
+          <h3>Linking records is what makes a CRM navigable</h3>
+          <p>Standalone contacts without a parent reference are hard to act on. Mapping the parent_contact_id field was what turned a list of records into a usable relationship structure.</p>
         </div>
-        <div class="result-card">
-          <div class="r-icon">&#9889;</div>
-          <span class="r-stat">Clean</span>
-          <h3>CRM From Day One</h3>
-          <p>Pipelines, tagging, and follow-up become more reliable when the data feeding them is structured and validated.</p>
-        </div>
-      </div>
-
-      <div class="outcome-example">
-        <div class="outcome-icon">&#128220;</div>
-        <div>
-          <p class="outcome-label">Operational Result</p>
-          <p class="outcome-text">This workflow reduced manual contact entry significantly — while improving follow-up coverage across all related contacts linked to each lead. Built inside a real GHL environment, not a demo account.</p>
+        <div class="learned-card">
+          <div class="learned-num">04</div>
+          <h3>Edge cases need to be planned, not discovered</h3>
+          <p>What happens if an API call fails? What if a contact has a phone but no email? Thinking through failure scenarios before they happen is the difference between a reliable workflow and a brittle one.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- HIRE ME CTA -->
-  <section class="cta-section">
+  <!-- RESULTS -->
+  <section class="results-section">
     <div class="container">
-      <p class="cta-label">Currently Available for Hire</p>
-      <h2>Looking for a Remote GHL or CRM Assistant Role</h2>
-      <p>
-        I'm actively seeking a full-time or part-time remote position supporting GHL operations, CRM management, workflow maintenance, and automation tasks. If you're hiring — or know someone who is — I'd like to hear from you.
-      </p>
-      <span class="cta-availability">&#128994; Available Now — Remote, Full-Time or Part-Time</span>
-      <div class="cta-buttons">
-        <a href="mailto:zed.maxcapinlac@gmail.com?subject=GHL Assistant Role Inquiry" class="btn-primary">&#9993;&#65039; Get in Touch</a>
-        <a href="https://www.onlinejobs.ph" class="btn-outline" target="_blank">&#128101; View My OJ Profile</a>
+      <p class="section-marker">What It Produces</p>
+      <h2 class="section-title">What This Workflow <em>Actually Delivers</em></h2>
+      <p class="section-body">Related contacts extracted, validated, and created as independent CRM records — linked back to the original lead. The value is in the logic, not in numbers I can't verify.</p>
+      <div class="results-grid">
+        <div class="result-card">
+          <span class="r-label">Input</span>
+          <h3>Unstructured Lead Records</h3>
+          <p>Related contacts buried inside custom fields — unusable for follow-up, outreach, or pipeline tracking.</p>
+        </div>
+        <div class="result-card">
+          <span class="r-label">Process</span>
+          <h3>Validated, Deduplicated Pipeline</h3>
+          <p>Each contact checked, processed through an API upsert, and linked before being written to the CRM.</p>
+        </div>
+        <div class="result-card">
+          <span class="r-label">Output</span>
+          <h3>Clean, Linked CRM Records</h3>
+          <p>Independent contact records connected to the parent lead — ready for follow-up, tagging, or downstream automation.</p>
+        </div>
+        <div class="result-card">
+          <span class="r-label">Benefit</span>
+          <h3>Zero Manual Entry Required</h3>
+          <p>Once the workflow is live, related contacts are created automatically — no copy-pasting, no manual record creation.</p>
+        </div>
       </div>
-      <p class="cta-contact">
-        Or email me directly at <a href="mailto:zed.maxcapinlac@gmail.com">zed.maxcapinlac@gmail.com</a>
-      </p>
+      <div class="outcome-block">
+        <p class="outcome-label">Portfolio Note</p>
+        <p class="outcome-text">This workflow was built in a GHL training environment during an internship — not a live client account. The logic, structure, and edge-case handling are real. I built it to understand how CRM automation works in practice, and to demonstrate that understanding clearly.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HIRE ME -->
+  <section class="hire-section">
+    <div class="container">
+      <div class="hire-inner">
+        <span class="hire-avail">Available Now — Remote</span>
+        <p class="section-marker">Open to Work</p>
+        <h2 class="section-title">Looking for a GHL or <em>CRM Assistant Role</em></h2>
+        <p class="hire-body">I'm actively looking for a remote assistant-level position supporting GHL operations, CRM management, workflow maintenance, and automation tasks. I understand how these systems behave — and I can execute tasks properly with minimal supervision.</p>
+        <div class="hire-actions">
+          <a href="mailto:zed.maxcapinlac@gmail.com?subject=GHL Assistant Role Inquiry" class="btn-primary">Get in Touch</a>
+          <a href="https://www.onlinejobs.ph" target="_blank" class="btn-outline">View OJ Profile</a>
+        </div>
+        <p class="hire-email">Or email directly — <a href="mailto:zed.maxcapinlac@gmail.com">zed.maxcapinlac@gmail.com</a></p>
+      </div>
     </div>
   </section>
 
   <!-- FOOTER -->
   <footer>
     <div class="container">
-      <p>GoHighLevel · CRM Workflows · Automation &nbsp;|&nbsp; Case Study Portfolio — Ciddy Macapinlac</p>
+      <p>GoHighLevel · CRM Workflows · Automation — Case Study</p>
+      <p>Ciddy Macapinlac · 2025</p>
     </div>
   </footer>
 
-  <!-- IMAGE MODAL -->
+  <!-- MODAL -->
   <div id="imgModal" class="modal">
-    <span class="modal-close">&times;</span>
-    <img class="modal-content" id="modalImg" />
+    <span class="modal-close" id="modalClose">[ close ]</span>
+    <img class="modal-img" id="modalImg" alt="Screenshot" />
   </div>
 
   <script>
     const modal = document.getElementById('imgModal');
     const modalImg = document.getElementById('modalImg');
-    const closeBtn = document.querySelector('.modal-close');
-
-    document.querySelectorAll('.clickable-img').forEach(img => {
-      img.addEventListener('click', () => {
-        modal.style.display = 'block';
-        setTimeout(() => modal.classList.add('show'), 10);
-        modalImg.src = img.src;
-      });
+    document.getElementById('modalClose').addEventListener('click', () => modal.classList.remove('show'));
+    modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('show'); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') modal.classList.remove('show'); });
+    document.querySelectorAll('.step-img-wrap img, .visual-img-wrap img').forEach(img => {
+      img.addEventListener('click', () => { modalImg.src = img.src; modal.classList.add('show'); });
     });
-
-    function closeModal() {
-      modal.classList.remove('show');
-      setTimeout(() => { modal.style.display = 'none'; }, 200);
-    }
-
-    closeBtn.addEventListener('click', closeModal);
-    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
   </script>
 
 </body>
