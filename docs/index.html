@@ -39,7 +39,6 @@
       font-weight: 300;
     }
 
-    /* Subtle grain overlay */
     body::before {
       content: '';
       position: fixed;
@@ -115,7 +114,6 @@
       position: relative;
       overflow: hidden;
     }
-    /* Decorative radial glow */
     .hero::before {
       content: '';
       position: absolute;
@@ -125,7 +123,6 @@
       background: radial-gradient(circle, rgba(255,255,255,0.025) 0%, transparent 60%);
       pointer-events: none;
     }
-    /* Thin horizontal rule decoration */
     .hero::after {
       content: '';
       position: absolute;
@@ -268,7 +265,7 @@
       text-transform: uppercase;
     }
 
-    /* ── CONTEXT BANNER (replaces stats bar) ── */
+    /* ── CONTEXT BANNER ── */
     .context-banner {
       background: var(--paper-dark);
       border-bottom: 1px solid var(--border);
@@ -754,7 +751,7 @@
     .json-block .str { color: #c8b898; }
     .json-block .comment { color: #4a4840; font-style: italic; }
 
-    /* ── WHAT I LEARNED (new section) ── */
+    /* ── WHAT I LEARNED ── */
     .learned-section { background: var(--paper-dark); }
     .learned-grid {
       display: grid;
@@ -929,31 +926,6 @@
     }
     .btn-primary:hover { background: var(--accent-dim); border-color: var(--accent-dim); }
 
-    .btn-outline {
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      letter-spacing: 0.07em;
-      text-transform: uppercase;
-      background: transparent;
-      color: var(--muted);
-      padding: 13px 24px;
-      border-radius: 2px;
-      text-decoration: none;
-      border: 1px solid var(--border-dark);
-      transition: border-color 0.15s, color 0.15s;
-      display: inline-block;
-    }
-    .btn-outline:hover { border-color: var(--ink); color: var(--ink); }
-
-    .hire-email {
-      margin-top: 20px;
-      font-family: var(--mono);
-      font-size: 0.67rem;
-      color: var(--muted);
-    }
-    .hire-email a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
-    .hire-email a:hover { color: var(--accent); }
-
     /* ── FOOTER ── */
     footer {
       background: var(--ink);
@@ -1076,7 +1048,7 @@
     </div>
   </header>
 
-  <!-- CONTEXT BANNER (replaces fabricated stats) -->
+  <!-- CONTEXT BANNER -->
   <div class="context-banner">
     <div class="context-banner-inner">
       <div class="context-cell">
@@ -1112,7 +1084,7 @@
         <div class="skim-item"><span class="skim-num">01</span><span class="skim-text">Extracts related contacts from unstructured custom fields</span></div>
         <div class="skim-item"><span class="skim-num">02</span><span class="skim-text">Creates or updates records via API — no duplicates</span></div>
         <div class="skim-item"><span class="skim-num">03</span><span class="skim-text">Links each new contact back to the original lead</span></div>
-        <div class="skim-item"><span class="skim-num">04</span><span class="skim-text">Eliminates manual data entry entirely</span></div>
+        <div class="skim-item"><span class="skim-num">04</span><span class="skim-text">Automates contact record creation — no manual entry required</span></div>
       </div>
     </div>
   </section>
@@ -1124,7 +1096,7 @@
       <h2 class="section-title">Most CRM Data Breaks Before It Becomes <em>Useful</em></h2>
       <p class="section-body">Many systems capture leads — but the data inside them is often incomplete, unstructured, or difficult to act on. This workflow was designed to address that directly.</p>
       <div class="callout">
-        <p>If a team processes <strong>100 leads a month</strong> and each has 2–3 related contacts, that's <strong>200–300 records</strong> that would normally require manual entry — creating delays, errors, and pipeline disorganization.</p>
+        <p>When leads have multiple related contacts stored as raw field data, those records typically require manual entry to become usable. <strong>That process is slow, inconsistent, and easy to skip</strong> — which is exactly the problem this workflow solves.</p>
       </div>
       <div class="problem-grid">
         <div class="problem-card">
@@ -1347,7 +1319,7 @@
     </div>
   </section>
 
-  <!-- WHAT I LEARNED — NEW SECTION -->
+  <!-- WHAT I LEARNED -->
   <section class="learned-section">
     <div class="container">
       <p class="section-marker">What I Learned</p>
@@ -1402,7 +1374,7 @@
         </div>
         <div class="result-card">
           <span class="r-label">Benefit</span>
-          <h3>Zero Manual Entry Required</h3>
+          <h3>Reduced Manual Entry</h3>
           <p>Once the workflow is live, related contacts are created automatically — no copy-pasting, no manual record creation.</p>
         </div>
       </div>
@@ -1423,9 +1395,8 @@
         <p class="hire-body">I'm actively looking for a remote assistant-level position supporting GHL operations, CRM management, workflow maintenance, and automation tasks. I understand how these systems behave — and I can execute tasks properly with minimal supervision.</p>
         <div class="hire-actions">
           <a href="mailto:zed.maxcapinlac@gmail.com?subject=GHL Assistant Role Inquiry" class="btn-primary">Get in Touch</a>
-          <a href="https://www.onlinejobs.ph" target="_blank" class="btn-outline">View OJ Profile</a>
         </div>
-        <p class="hire-email">Or email directly — <a href="mailto:zed.maxcapinlac@gmail.com">zed.maxcapinlac@gmail.com</a></p>
+        <p class="hire-email" style="margin-top:20px; font-family:var(--mono); font-size:0.67rem; color:var(--muted);">Or email directly — <a href="mailto:zed.maxcapinlac@gmail.com" style="color:var(--ink); text-decoration:underline; text-underline-offset:3px;">zed.maxcapinlac@gmail.com</a></p>
       </div>
     </div>
   </section>
